@@ -31,4 +31,4 @@
 
 ## Notes
 
-- Validation passed after consolidating the later home tabelao observation into this single spec. The spec avoids implementation stack decisions, makes the one-page home tabelao the primary experience, treats detailed pages as secondary, keeps source/refresh cadence as planning decisions with explicit provenance and fallback requirements, and records issues #1 through #7 as governing inputs.
+- Validation passed after consolidating the later home tabelao observation and `ux-intelligence.md` into this single spec. The spec avoids implementation stack decisions, makes the one-page home tabelao the primary experience, treats detailed pages as secondary, requires UX guardrails for hierarchy, usability, mobile readability, focus states, pending-state clarity, and anti-pattern review, keeps source/refresh cadence as planning decisions with explicit provenance and fallback requirements, and records issues #1 through #7 as governing inputs.

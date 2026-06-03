@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Input**: User description: "use as issues abertas em https://github.com/rodrigoblasi/copa.blasi.io para criar a spec, todas as issues 1 até 7 contém informações uteis. faça o registro do uso delas na propria issue depois da criação da spec". Revision note: "leve em consideração o arquivo \"/starlog/01. Projects/copa-do-mundo-fifa-2026/input/tabelão.jpg\" como exemplo o site na sua home precisa ter uma visão geral (grupos e jogos + fase de grupos e jogos) que vai se preenchendo conforme os updates de dados chegam das fontes oficiais. paginas detalhadas são bem vindas mas o principal é ter a visão geral em pagina unica e bem organizada visualmente"
+**Input**: User description: "use as issues abertas em https://github.com/rodrigoblasi/copa.blasi.io para criar a spec, todas as issues 1 até 7 contém informações uteis. faça o registro do uso delas na propria issue depois da criação da spec". Revision note: "leve em consideração o arquivo \"/starlog/01. Projects/copa-do-mundo-fifa-2026/input/tabelão.jpg\" como exemplo o site na sua home precisa ter uma visão geral (grupos e jogos + fase de grupos e jogos) que vai se preenchendo conforme os updates de dados chegam das fontes oficiais. paginas detalhadas são bem vindas mas o principal é ter a visão geral em pagina unica e bem organizada visualmente". UX reference: `specs/001-copa-folheto-mvp/ux-intelligence.md` MUST guide visual quality, hierarchy, usability, mobile readability, and dashboard-drift review.
 
 **GitHub Issue**: https://github.com/rodrigoblasi/copa.blasi.io/issues/1, https://github.com/rodrigoblasi/copa.blasi.io/issues/2, https://github.com/rodrigoblasi/copa.blasi.io/issues/3, https://github.com/rodrigoblasi/copa.blasi.io/issues/4, https://github.com/rodrigoblasi/copa.blasi.io/issues/5, https://github.com/rodrigoblasi/copa.blasi.io/issues/6, https://github.com/rodrigoblasi/copa.blasi.io/issues/7
 
@@ -25,7 +25,7 @@ Como visitante do site, quero abrir a home de `copa.blasi.io` e ver uma visão g
 1. **Given** que há grupos e jogos conhecidos, **When** o visitante abre a home, **Then** ele vê todos os grupos, jogos principais da fase de grupos, fase atual, próximos jogos, jogos recentes e estrutura do mata-mata em uma visão geral organizada.
 2. **Given** que algum dado importante está pendente ou incerto, **When** o visitante consulta a home, **Then** o dado aparece como pendente, desconhecido ou problemático, sem informação inventada.
 3. **Given** que a fase eliminatória ainda não tem todos os classificados, **When** o visitante consulta a home, **Then** os espaços da chave aparecem reservados e marcados como pendentes ou condicionais.
-4. **Given** que o visitante acessa a home em celular, **When** ele navega pelo tabelão, **Then** a leitura permanece legível e a orientação espacial entre grupos, jogos e mata-mata continua compreensível.
+4. **Given** que o visitante acessa a home em celular, **When** ele navega pelo tabelão, **Then** a leitura permanece legível, com alto contraste, hierarquia clara e orientação espacial compreensível entre grupos, jogos e mata-mata.
 
 ---
 
@@ -61,7 +61,24 @@ Como visitante, quero consultar o calendário completo por fase, dia e grupo, co
 
 ---
 
-### User Story 4 - Acompanhar o caminho do Brasil (Priority: P2)
+### User Story 4 - Usar uma interface bonita e clara (Priority: P1)
+
+Como visitante, quero que a experiência visual seja bem desenhada, editorial, compacta, legível e fácil de usar, para consultar a Copa rapidamente sem ruído visual, baixa acessibilidade ou aparência genérica de dashboard.
+
+**Why this priority**: A qualidade visual e a usabilidade são parte central do produto; a spec deve seguir `ux-intelligence.md` para evitar uma interface genérica, confusa ou visualmente fraca.
+
+**Independent Test**: Pode ser testado revisando home e páginas principais contra `ux-intelligence.md`, confirmando caminho de leitura dominante, hierarquia forte, alto contraste, legibilidade mobile, estados de foco visíveis, estados pendentes intencionais e ausência de ruído decorativo.
+
+**Acceptance Scenarios**:
+
+1. **Given** que a home contém muitos grupos, jogos e chaves, **When** o visitante abre a página, **Then** ele percebe um caminho de leitura dominante e hierarquia visual clara antes de qualquer ornamentação.
+2. **Given** que há dados pendentes, condicionais ou desconhecidos, **When** eles aparecem na interface, **Then** parecem estados intencionais e explicados, não áreas quebradas ou vazias por acidente.
+3. **Given** que o visitante navega por teclado ou toque, **When** ele interage com links, jogos e áreas detalhadas, **Then** estados de foco, toque e navegação são visíveis, consistentes e discretos.
+4. **Given** que a página é revisada contra os anti-patterns de `ux-intelligence.md`, **When** houver flat card grids sem ritmo editorial, excesso de badges/widgets, gradientes que reduzem legibilidade, múltiplos acentos concorrentes ou visual de analytics pesado, **Then** a experiência deve ser considerada reprovada até correção.
+
+---
+
+### User Story 5 - Acompanhar o caminho do Brasil (Priority: P2)
 
 Como proprietário e visitante interessado no Brasil, quero uma página dedicada ao caminho do Brasil, com jogos da fase de grupos, resultados, contexto curto, notas pré e pós-jogo e possíveis adversários futuros, para acompanhar a seleção sem perder o contexto do torneio.
 
@@ -77,7 +94,7 @@ Como proprietário e visitante interessado no Brasil, quero uma página dedicada
 
 ---
 
-### User Story 5 - Consultar uma partida específica (Priority: P2)
+### User Story 6 - Consultar uma partida específica (Priority: P2)
 
 Como visitante, quero abrir uma página de jogo para ver fase, seleções, horário, estádio, cidade, status, placar, fatos úteis, notas curtas e links de retorno ao contexto maior.
 
@@ -93,7 +110,7 @@ Como visitante, quero abrir uma página de jogo para ver fase, seleções, horá
 
 ---
 
-### User Story 6 - Ver radar resumido do momento (Priority: P3)
+### User Story 7 - Ver radar resumido do momento (Priority: P3)
 
 Como visitante, quero uma visão de radar com jogos que merecem atenção, resultados recentes, possíveis cruzamentos e mudanças relevantes, para entender o que observar sem entrar em análise pesada.
 
@@ -109,7 +126,7 @@ Como visitante, quero uma visão de radar com jogos que merecem atenção, resul
 
 ---
 
-### User Story 7 - Operar dados confiáveis e registros públicos limpos (Priority: P3)
+### User Story 8 - Operar dados confiáveis e registros públicos limpos (Priority: P3)
 
 Como mantenedor, quero que dados, atualizações, saúde interna, governança e higiene pública estejam definidos, para operar o site com confiança sem expor conteúdo sensível ou transformar observabilidade em produto público.
 
@@ -135,6 +152,10 @@ Como mantenedor, quero que dados, atualizações, saúde interna, governança e 
 - Um jogo é futuro, ao vivo, encerrado, adiado, cancelado, desconhecido ou com problema de dados.
 - A home recebe muitas atualizações em curto período e precisa manter o usuário orientado.
 - A densidade visual fica alta demais em telas pequenas.
+- A interface fica visualmente bonita em desktop, mas perde legibilidade, contraste ou orientação no celular.
+- Elementos decorativos, badges, widgets ou gradientes começam a competir com informações de jogo.
+- Estados pendentes, vazios ou desconhecidos parecem erro visual em vez de status intencional.
+- Links, focos ou alvos de toque ficam difíceis de perceber ou acionar.
 - O Brasil é eliminado ou tem caminho futuro sem adversário definido.
 - Não há jogos recentes, próximos jogos ou alertas de radar no momento da consulta.
 - O conteúdo editorial fica longo demais e ameaça a leitura rápida.
@@ -159,17 +180,23 @@ Como mantenedor, quero que dados, atualizações, saúde interna, governança e 
 - **FR-011**: System MUST distinguish at least these match states when applicable: future, live, finished, postponed, cancelled, unknown, and data-problem.
 - **FR-012**: System MUST support short pre-match, live-context, and post-match notes for relevant matches while keeping them concise and clearly separated from factual match data.
 - **FR-013**: System MUST provide a summarized radar view for important upcoming matches, recent results, possible crossings, and relevant changes, limited to concise editorial signals.
-- **FR-014**: System MUST use a visual language inspired by the referenced Starlog `tabelão.jpg`: compact match blocks, visible group sections, bracket areas, strong hierarchy, intentional density, flags and colors used with restraint, and print-like World Cup character.
-- **FR-015**: System MUST avoid a generic dashboard feel, excessive analytical widgets, social features, authentication flows, or interaction patterns that distract from the one-page overview.
-- **FR-016**: System MUST remain readable and navigable on mobile and desktop, with clear public URLs suitable for sharing.
-- **FR-017**: System MUST support public-site basics for discoverability and hygiene, including meaningful page titles, short descriptions, and explicit crawl guidance for the public subdomain.
-- **FR-018**: System MUST identify the source and freshness state for dynamic calendar, score, status, venue, and note-driving data.
-- **FR-019**: System MUST never invent missing, stale, conflicting, or uncertain data; it MUST present these states as pending, unknown, conditional, stale, conflicting, or source-problematic.
-- **FR-020**: System MUST define fallback behavior for source failure, including preserving the last known reliable value only when it can be labeled with its freshness state.
-- **FR-021**: System MUST support review of public content and repository artifacts to exclude secrets, credentials, private notes, unnecessary personal data, sensitive metadata, local artifacts, and content that does not help the product.
-- **FR-022**: System MUST keep observability, access metrics, route health, and operational diagnostics separate from the public user interface unless a simple public status message helps users understand missing or problematic data.
-- **FR-023**: System MUST maintain a GitHub governance trail for public content, data-source decisions, scheduled refresh behavior, deployment impact, and observability decisions through issues, branches, commits, PRs, or reviewable comments.
-- **FR-024**: System MUST include validation coverage or documented validation steps for progressive filling of groups, match statuses, scores, classifications, bracket slots, uncertainty labels, match state changes, data transformations, fallback decisions, and public result displays.
+- **FR-014**: System MUST use `specs/001-copa-folheto-mvp/ux-intelligence.md` as a required UX reference for visual hierarchy, usability, mobile readability, interaction states, pending states, and anti-pattern review.
+- **FR-015**: System MUST use a visual language inspired by the referenced Starlog `tabelão.jpg`: compact match blocks, visible group sections, bracket areas, strong hierarchy, intentional density, flags and colors used with restraint, and print-like World Cup character.
+- **FR-016**: System MUST provide one dominant reading path per primary screen, with the home carrying the strongest visual hierarchy.
+- **FR-017**: System MUST prioritize hierarchy, contrast, typography, grouping, whitespace, and readable match information before ornament, animation, or decorative effects.
+- **FR-018**: System MUST make unknown, pending, conditional, stale, conflicting, and source-problematic states look intentional, labeled, and understandable rather than broken, empty, or accidental.
+- **FR-019**: System MUST use a restrained visual system with one strong Brazil accent and neutral tournament structure colors, avoiding multiple competing accents.
+- **FR-020**: System MUST provide visible and consistent hover, focus, touch, sharing, and navigation states without making them louder than match information.
+- **FR-021**: System MUST avoid a generic dashboard feel, excessive analytical widgets, social features, authentication flows, flat card grids with no editorial rhythm, excessive badges, decorative gradients that reduce legibility, or interaction patterns that distract from the one-page overview.
+- **FR-022**: System MUST remain readable and navigable on mobile and desktop, with clear public URLs suitable for sharing and a mobile layout that preserves tournament logic when collapsing vertically.
+- **FR-023**: System MUST support public-site basics for discoverability and hygiene, including meaningful page titles, short descriptions, and explicit crawl guidance for the public subdomain.
+- **FR-024**: System MUST identify the source and freshness state for dynamic calendar, score, status, venue, and note-driving data.
+- **FR-025**: System MUST never invent missing, stale, conflicting, or uncertain data; it MUST present these states as pending, unknown, conditional, stale, conflicting, or source-problematic.
+- **FR-026**: System MUST define fallback behavior for source failure, including preserving the last known reliable value only when it can be labeled with its freshness state.
+- **FR-027**: System MUST support review of public content and repository artifacts to exclude secrets, credentials, private notes, unnecessary personal data, sensitive metadata, local artifacts, and content that does not help the product.
+- **FR-028**: System MUST keep observability, access metrics, route health, and operational diagnostics separate from the public user interface unless a simple public status message helps users understand missing or problematic data.
+- **FR-029**: System MUST maintain a GitHub governance trail for public content, data-source decisions, scheduled refresh behavior, deployment impact, UX decisions, visual review decisions, and observability decisions through issues, branches, commits, PRs, or reviewable comments.
+- **FR-030**: System MUST include validation coverage or documented validation steps for progressive filling of groups, match statuses, scores, classifications, bracket slots, uncertainty labels, match state changes, data transformations, fallback decisions, public result displays, mobile usability, and UX anti-pattern review.
 
 ### Copa Constitution Requirements *(mandatory)*
 
@@ -197,6 +224,8 @@ Como mantenedor, quero que dados, atualizações, saúde interna, governança e 
 - **Score**: The goals or result state for a match, including final, live/current, unavailable, or disputed values.
 - **Editorial Note**: A short contextual note, highlight, fact, or post-match observation that helps reading without replacing sourced factual data.
 - **Radar Item**: A concise signal about an upcoming match, recent result, possible crossing, or notable change that links back to match, phase, Brazil, or calendar context.
+- **UX Guardrail**: A design rule from `ux-intelligence.md` that protects hierarchy, readability, focus states, pending-state clarity, mobile usability, and folheto identity.
+- **Visual Review Finding**: A recorded usability or visual-quality observation that identifies whether a screen follows the folheto direction or drifts into generic dashboard behavior.
 - **Data Source Record**: A record of source identity, last checked time, freshness state, and fallback state for dynamic information.
 - **Operational Health Signal**: Internal-only indication of access, route health, refresh health, source failure, parsing problem, or public-site status.
 
@@ -213,6 +242,7 @@ Como mantenedor, quero que dados, atualizações, saúde interna, governança e 
 - **Issue**: This spec is governed by https://github.com/rodrigoblasi/copa.blasi.io/issues/1 and uses pre-spec inputs from https://github.com/rodrigoblasi/copa.blasi.io/issues/2, https://github.com/rodrigoblasi/copa.blasi.io/issues/3, https://github.com/rodrigoblasi/copa.blasi.io/issues/4, https://github.com/rodrigoblasi/copa.blasi.io/issues/5, https://github.com/rodrigoblasi/copa.blasi.io/issues/6, and https://github.com/rodrigoblasi/copa.blasi.io/issues/7.
 - **Branch**: `001-use-issues-abertas`
 - **Records**: The spec file, quality checklist, follow-up issue comments, future commits, PRs, deployment notes, source decisions, and validation records must preserve decisions and operational history.
+- **UX Reference**: `specs/001-copa-folheto-mvp/ux-intelligence.md` is a required design brief for planning, implementation, review, and acceptance of user-facing work.
 - **Privacy Review**: Before publishing or committing related work, review public pages, issue comments, metadata, source records, assets, logs, and generated artifacts for secrets, credentials, private notes, unnecessary personal data, sensitive metadata, local paths, and irrelevant personal context.
 
 ## Success Criteria *(mandatory)*
@@ -231,6 +261,9 @@ Como mantenedor, quero que dados, atualizações, saúde interna, governança e 
 - **SC-010**: Internal operation can answer whether the public site is reachable, which public routes are receiving access, whether data refresh is healthy, and whether source failures occurred within the last scheduled refresh period, without exposing those details as public product features.
 - **SC-011**: The MVP preserves a distinct digital World Cup tabelao or folheto overview in stakeholder review, with no reviewed primary page classified as a generic dashboard, list page, or analytics interface.
 - **SC-012**: The public site supports direct sharing and basic discoverability for home, calendar, Brazil, radar, and individual match pages under `copa.blasi.io`.
+- **SC-013**: 100% of reviewed primary screens pass the `ux-intelligence.md` review questions for folheto identity, home clarity, Brazil discoverability, pending-state readability, and mobile shareability.
+- **SC-014**: 100% of reviewed interactive elements on primary screens have visible, consistent focus or touch feedback and can be understood without competing with match information.
+- **SC-015**: No reviewed primary screen is accepted if it depends on flat card grids without editorial rhythm, excessive pills/badges/widgets, decorative gradients that reduce legibility, multiple competing accents, or heavy analytics framing.
 
 ## Assumptions
 
@@ -239,6 +272,7 @@ Como mantenedor, quero que dados, atualizações, saúde interna, governança e 
 - Portugal may appear as secondary context only if it does not compete with the Brazil-first emphasis or pollute the first cut.
 - Heavy statistics, social features, accounts, community mechanics, long-form analysis, and complex dashboards are out of scope for this spec.
 - The visual starting point is `/starlog/01. Projects/copa-do-mundo-fifa-2026/input/tabelão.jpg`, interpreted as direction for composition, density, hierarchy, group blocks, bracket areas, and tournament-at-a-glance behavior, not as a requirement to copy the image exactly or publish the local file.
+- `specs/001-copa-folheto-mvp/ux-intelligence.md` is the standing UX/design brief for this spec and should be used during planning, implementation prompts, visual review, and acceptance.
 - Detailed pages for matches, groups, Brazil, calendar, or phases are useful secondary surfaces, but the home must remain sufficient for the main tournament overview.
 - The first implementation may launch with partially filled data as long as unknown and pending areas are explicit and the visual structure is already present.
 - Source selection and exact refresh cadence require planning work, but this spec requires official-or-reliable provenance, freshness labels, fallback behavior, and no invented facts.
