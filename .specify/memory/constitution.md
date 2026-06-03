@@ -1,15 +1,14 @@
 <!--
 Sync Impact Report
-Version change: template -> 1.0.0
+Version change: 1.0.0 -> 1.1.0
 Modified principles:
-- Template placeholders -> I. Personal Public Folheto
-- Template placeholders -> II. Editorial Clarity Over Generic Dashboards
-- Template placeholders -> III. Verified Scheduled Data
-- Template placeholders -> IV. Public Repo Hygiene
-- Template placeholders -> V. Operable Backend Observability
+- I. Personal Public Folheto -> I. Personal Public Folheto
+- II. Editorial Clarity Over Generic Dashboards -> II. Editorial Clarity Over Generic Dashboards
+- III. Verified Scheduled Data -> III. Verified Scheduled Data
+- IV. Public Repo Hygiene -> IV. GitHub-First Public Governance
+- V. Operable Backend Observability -> VI. Operable Backend Observability
 Added sections:
-- Product Constraints
-- Development Workflow
+- V. Public Repo Hygiene and Personal Data Minimization
 Removed sections:
 - None
 Templates requiring updates:
@@ -17,6 +16,7 @@ Templates requiring updates:
 - ✅ updated .specify/templates/spec-template.md
 - ✅ updated .specify/templates/tasks-template.md
 - ✅ reviewed .specify/templates/checklist-template.md
+- ✅ updated AGENTS.md
 - ✅ reviewed .opencode/commands/*.md; no project-specific outdated references found
 - ⚠ pending .specify/templates/commands/*.md; directory does not exist in this repo
 Follow-up TODOs:
@@ -63,18 +63,35 @@ depends on external data.
 Rationale: trust is more important than appearing complete, especially for live
 or recently changed match information.
 
-### IV. Public Repo Hygiene
+### IV. GitHub-First Public Governance
 
-The repository and published site MUST contain only information that supports the
-product. Secrets, credentials, private notes, unnecessary personal data, sensitive
-metadata, unpublished operational details, and accidental local artifacts MUST NOT
-enter version control or public pages. Content intended for publication MUST be
-reviewed for shareability before merge or deployment.
+The GitHub repository `https://github.com/rodrigoblasi/copa.blasi.io/` MUST be the
+system of record for project governance, planning, operational history, and code
+change tracking. Work MUST be represented through GitHub issues, branches,
+commits, and reviewable records before it is treated as accepted project history.
+Specs, plans, tasks, operational decisions, data-source problems, deployment notes,
+and constitution amendments MUST reference the relevant GitHub issue, branch, or
+commit when applicable. The public deployment target is `copa.blasi.io`, and work
+that affects that subdomain MUST keep its operational trail in GitHub.
+
+Rationale: a public personal project needs one durable audit trail instead of
+scattered decisions across chat, local files, or private notes.
+
+### V. Public Repo Hygiene and Personal Data Minimization
+
+The entire project MUST be handled as public by default. The repository,
+specifications, tasks, issues, commits, logs, assets, metadata, and published site
+MUST contain only information that supports the product. Secrets, credentials,
+private notes, unnecessary personal data, sensitive metadata, unpublished
+operational details, and accidental local artifacts MUST NOT enter version
+control, GitHub issues, comments, branches, commits, logs, artifacts, or public
+pages. Content and operational records MUST be reviewed for shareability before
+merge, publication, or issue/comment submission.
 
 Rationale: the repo is public and can act as professional portfolio material;
 irrelevant or sensitive content creates avoidable risk.
 
-### V. Operable Backend Observability
+### VI. Operable Backend Observability
 
 Backend jobs, data refreshes, source access, parsing, fallback decisions, and
 runtime failures MUST produce organized, structured, and standardized logs.
@@ -92,7 +109,7 @@ consistent diagnostics to remain maintainable.
 - The first useful cut MUST favor home, calendar, Brazil page, match pages, and a
   compact radar over broad statistical coverage.
 - Pages MUST be mobile-friendly, performant, legible, indexable, and reachable by
-  clear shareable URLs.
+  clear shareable URLs under `copa.blasi.io`.
 - Match representation MUST distinguish future, live, finished, postponed,
   cancelled, unknown, and data-problem states when those states apply.
 - Notes and highlights MUST remain short and useful; long analysis belongs out of
@@ -104,13 +121,14 @@ consistent diagnostics to remain maintainable.
 
 - Specs MUST identify the user value, public surface, data source assumptions,
   fallback behavior, privacy review needs, observability needs, and independent
-  validation for each feature.
+  validation for each feature, and MUST reference the governing GitHub issue.
 - Plans MUST include a Constitution Check before research and after design,
   covering editorial UX, scheduled data reliability, privacy, structured logging,
-  performance, and mobile readability.
+  performance, mobile readability, GitHub traceability, and subdomain impact.
 - Tasks MUST preserve incremental delivery by user story and MUST include tests
   or validation steps for critical data transformations, scheduled refreshes,
-  fallback behavior, structured logging, and public content hygiene.
+  fallback behavior, structured logging, GitHub records, and public content
+  hygiene.
 - Test-first development is not universal; however, logic that interprets external
   data, changes match state, or drives public results MUST have automated tests or
   a documented validation alternative before release.
@@ -123,20 +141,23 @@ This constitution supersedes specs, plans, tasks, and ad hoc implementation
 preferences for `copa.blasi.io`. Any conflicting artifact MUST be updated before
 implementation proceeds.
 
-Amendments require a documented rationale, references to the issue or decision
-that motivated the change, a semantic version bump, and a Sync Impact Report in
-this file. The owner approves amendments.
+Amendments require a documented rationale, a GitHub issue or commit reference for
+the decision, a semantic version bump, and a Sync Impact Report in this file. The
+owner approves amendments. Governance and operational decisions that are not
+recorded in GitHub are provisional and MUST be captured there before being treated
+as durable project policy.
 
 Versioning policy:
 - MAJOR: removes or redefines a core principle, changes the product's personal
   public purpose, or weakens data truthfulness/privacy guarantees.
-- MINOR: adds a principle, adds a governance section, or materially expands
-  required workflow checks.
+- MINOR: adds a principle, adds a governance section, changes GitHub workflow
+  requirements, or materially expands required workflow checks.
 - PATCH: clarifies wording, fixes inconsistencies, or updates non-semantic text.
 
 Compliance review is mandatory during `/speckit.plan`, `/speckit.tasks`, and code
-review. Reviews MUST verify that public UX, data provenance, scheduled refreshes,
-fallback behavior, logging, privacy hygiene, and independent validation match this
-constitution.
+review. Reviews MUST verify that GitHub issue/branch/commit traceability, public
+UX, data provenance, scheduled refreshes, fallback behavior, logging, privacy
+hygiene, personal-data minimization, subdomain impact, and independent validation
+match this constitution.
 
-**Version**: 1.0.0 | **Ratified**: 2026-06-03 | **Last Amended**: 2026-06-03
+**Version**: 1.1.0 | **Ratified**: 2026-06-03 | **Last Amended**: 2026-06-03

@@ -4,6 +4,8 @@
 
 **Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
 
+**GitHub Issue**: [link to governing issue in https://github.com/rodrigoblasi/copa.blasi.io/issues]
+
 **Note**: This template is filled in by the `/speckit.plan` command. See `.specify/templates/plan-template.md` for the execution workflow.
 
 ## Summary
@@ -30,6 +32,8 @@
 
 **Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]
 
+**GitHub Traceability**: [issue URL, branch name, related commits/PRs, and operational record expectations]
+
 **Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]
 
 **Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]
@@ -39,6 +43,8 @@
 **Observability**: [structured logs/metrics for source access, scheduler, parsing, fallback, route errors, and health or N/A]
 
 **Public Hygiene**: [privacy/content review constraints for public repo and published pages or N/A]
+
+**Subdomain Impact**: [effect on copa.blasi.io routing, deployment, SEO, robots.txt, public metadata, or N/A]
 
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
@@ -55,7 +61,11 @@
   freshness rules, fallback behavior, and how unknown/stale/conflicting data is
   represented without inventing facts.
 - **Public repo hygiene**: Plan identifies secrets, personal data, metadata, and
-  publication risks, plus how they are excluded or reviewed.
+  publication risks across files, issues, comments, logs, artifacts, and deployed
+  pages, plus how they are excluded or reviewed.
+- **GitHub governance**: Plan references the governing GitHub issue, expected
+  branch, review trail, and any operational record that must be kept in
+  `https://github.com/rodrigoblasi/copa.blasi.io/`.
 - **Structured observability**: Plan defines backend logs/metrics needed for data
   source access, scheduler runs, parsing, fallback decisions, route errors, and
   site health without exposing sensitive data publicly.

@@ -9,6 +9,9 @@ description: "Task list template for feature implementation"
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
+**GitHub**: Tasks MUST trace back to the governing GitHub issue and branch for
+`https://github.com/rodrigoblasi/copa.blasi.io/`.
+
 **Tests**: The examples below include test tasks. Tests are required when the
 constitution or specification marks data transformations, scheduled refreshes,
 fallback behavior, match state changes, structured logging, or public result
@@ -74,6 +77,8 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] T009 Setup environment configuration management
 - [ ] T010 Define structured logging fields for source access, scheduler runs, parsing, fallback decisions, route errors, and health
 - [ ] T011 Document public repo/content hygiene checks for secrets, personal data, metadata, and local artifacts
+- [ ] T012 Confirm governing GitHub issue, branch naming, and repository record requirements
+- [ ] T013 Document `copa.blasi.io` subdomain impact for routing, metadata, deployment, and operations
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -89,18 +94,18 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T012 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T013 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T014 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T015 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T015 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T016 [US1] Implement [Service] in src/services/[service].py (depends on T014, T015)
-- [ ] T017 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T018 [US1] Add validation and error handling
-- [ ] T019 [US1] Add logging for user story 1 operations
-- [ ] T020 [US1] Add source provenance, freshness, and fallback handling where dynamic Copa data is used
+- [ ] T016 [P] [US1] Create [Entity1] model in src/models/[entity1].py
+- [ ] T017 [P] [US1] Create [Entity2] model in src/models/[entity2].py
+- [ ] T018 [US1] Implement [Service] in src/services/[service].py (depends on T016, T017)
+- [ ] T019 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T020 [US1] Add validation and error handling
+- [ ] T021 [US1] Add logging for user story 1 operations
+- [ ] T022 [US1] Add source provenance, freshness, and fallback handling where dynamic Copa data is used
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -114,15 +119,15 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 2 (REQUIRED if constitution-critical) ⚠️
 
-- [ ] T021 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T022 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T023 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T024 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
 
 ### Implementation for User Story 2
 
-- [ ] T023 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T024 [US2] Implement [Service] in src/services/[service].py
-- [ ] T025 [US2] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T026 [US2] Integrate with User Story 1 components (if needed)
+- [ ] T025 [P] [US2] Create [Entity] model in src/models/[entity].py
+- [ ] T026 [US2] Implement [Service] in src/services/[service].py
+- [ ] T027 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T028 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -136,14 +141,14 @@ Examples of foundational tasks (adjust based on your project):
 
 ### Tests for User Story 3 (REQUIRED if constitution-critical) ⚠️
 
-- [ ] T027 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T028 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T029 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T030 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
 
 ### Implementation for User Story 3
 
-- [ ] T029 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T030 [US3] Implement [Service] in src/services/[service].py
-- [ ] T031 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T031 [P] [US3] Create [Entity] model in src/models/[entity].py
+- [ ] T032 [US3] Implement [Service] in src/services/[service].py
+- [ ] T033 [US3] Implement [endpoint/feature] in src/[location]/[file].py
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -163,6 +168,8 @@ Examples of foundational tasks (adjust based on your project):
 - [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
 - [ ] TXXX Security hardening
 - [ ] TXXX Public content hygiene review for secrets, personal data, metadata, and local artifacts
+- [ ] TXXX Verify GitHub issue, branch, commits/PRs, and operational records are linked and public-safe
+- [ ] TXXX Verify `copa.blasi.io` public subdomain behavior and metadata before release
 - [ ] TXXX Validate scheduled data refresh, source fallback, structured logs, and freshness display
 - [ ] TXXX Run quickstart.md validation
 

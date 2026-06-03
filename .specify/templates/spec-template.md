@@ -8,6 +8,8 @@
 
 **Input**: User description: "$ARGUMENTS"
 
+**GitHub Issue**: [link to governing issue in https://github.com/rodrigoblasi/copa.blasi.io/issues]
+
 ## User Scenarios & Testing *(mandatory)*
 
 <!--
@@ -99,8 +101,10 @@
 - **CCR-002**: User-facing design MUST preserve the editorial folheto/tabelao direction and explain any deviation from that visual language.
 - **CCR-003**: Any dynamic match data MUST specify source, refresh schedule, freshness signal, fallback behavior, and handling for unknown, stale, conflicting, or missing values.
 - **CCR-004**: Public content and repository changes MUST exclude secrets, private notes, unnecessary personal data, sensitive metadata, and local artifacts.
-- **CCR-005**: Backend or scheduled work MUST define structured logs for source access, scheduler runs, parsing, fallback decisions, errors, and health.
-- **CCR-006**: Critical data transformations, match state changes, fallbacks, and public result displays MUST have automated tests or documented validation.
+- **CCR-005**: Governance and operation MUST be tracked through GitHub issues, branches, commits, PRs, or reviewable repository records.
+- **CCR-006**: Work that affects `copa.blasi.io` MUST document public subdomain impact, including routes, metadata, SEO, robots.txt, deployment, or operational notes when applicable.
+- **CCR-007**: Backend or scheduled work MUST define structured logs for source access, scheduler runs, parsing, fallback decisions, errors, and health.
+- **CCR-008**: Critical data transformations, match state changes, fallbacks, and public result displays MUST have automated tests or documented validation.
 
 *Example of marking unclear requirements:*
 
@@ -118,6 +122,13 @@
 - **Refresh Schedule**: [When/how data is updated]
 - **Fallback Rule**: [What happens when the primary source fails]
 - **Uncertainty Display**: [How unknown, stale, conflicting, or pending data appears to users]
+
+### GitHub Governance *(mandatory)*
+
+- **Issue**: [GitHub issue URL that authorizes or tracks this feature]
+- **Branch**: [Expected branch name]
+- **Records**: [Commits, PRs, comments, or docs that must preserve decisions and operational history]
+- **Privacy Review**: [How personal data, secrets, local artifacts, and sensitive metadata are excluded before publication]
 
 ## Success Criteria *(mandatory)*
 
