@@ -1,4 +1,4 @@
-import type { Tournament, Match } from './types';
+import type { Tournament, Match, Team } from './types';
 
 export interface CalendarDayVM {
   date: string;
@@ -10,13 +10,30 @@ export interface PhaseCalendarVM {
   days: CalendarDayVM[];
 }
 
+function enrichMatch(match: Match, teams: Team[]): Match {
+  const home = teams.find(t => t.id === match.homeTeamId);
+  const away = teams.find(t => t.id === match.awayTeamId);
+  return {
+    ...match,
+    homeTeamName: home?.name || match.homeTeamLabel || 'A definir',
+    awayTeamName: away?.name || match.awayTeamLabel || 'A definir',
+    homeTeamCode: home?.countryCode || null,
+    awayTeamCode: away?.countryCode || null,
+  };
+}
+
+const phaseLabels: Record<string, string> = {
+  'groups': 'Fase de Grupos',
+  'knockout': 'Mata-Mata',
+};
+
 export function buildCalendarView(tournament: Tournament): PhaseCalendarVM[] {
-  // Simple grouping by phaseId and date
   const phasesMap = new Map<string, Map<string, Match[]>>();
   
   for (const match of tournament.matches) {
     const phaseId = match.phaseId || 'unknown-phase';
     const date = match.date || 'TBD';
+    const enriched = enrichMatch(match, tournament.teams);
     
     if (!phasesMap.has(phaseId)) {
       phasesMap.set(phaseId, new Map());
@@ -26,7 +43,7 @@ export function buildCalendarView(tournament: Tournament): PhaseCalendarVM[] {
     if (!daysMap.has(date)) {
       daysMap.set(date, []);
     }
-    daysMap.get(date)!.push(match);
+    daysMap.get(date)!.push(enriched);
   }
 
   const result: PhaseCalendarVM[] = [];

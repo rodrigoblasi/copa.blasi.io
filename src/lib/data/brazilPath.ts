@@ -1,4 +1,16 @@
-import type { Tournament, Match, KnockoutBlock, KnockoutSlot } from './types';
+import type { Tournament, Match, Team, KnockoutBlock, KnockoutSlot } from './types';
+
+function enrichMatch(match: Match, teams: Team[]): Match {
+  const home = teams.find(t => t.id === match.homeTeamId);
+  const away = teams.find(t => t.id === match.awayTeamId);
+  return {
+    ...match,
+    homeTeamName: home?.name || match.homeTeamLabel || 'A definir',
+    awayTeamName: away?.name || match.awayTeamLabel || 'A definir',
+    homeTeamCode: home?.countryCode || null,
+    awayTeamCode: away?.countryCode || null,
+  };
+}
 
 export interface BrazilPathVM {
   groupMatches: Match[];
@@ -13,9 +25,9 @@ export function buildBrazilPath(tournament: Tournament): BrazilPathVM {
   const brazil = tournament.teams.find(t => t.isBrazil);
   if (!brazil) return { groupMatches: [], knockoutPath: [] };
 
-  const groupMatches = tournament.matches.filter(
-    m => (m.homeTeamId === brazil.id || m.awayTeamId === brazil.id) && m.phaseId !== 'knockout'
-  );
+  const groupMatches = tournament.matches
+    .filter(m => (m.homeTeamId === brazil.id || m.awayTeamId === brazil.id) && m.phaseId !== 'knockout')
+    .map(m => enrichMatch(m, tournament.teams));
 
   // Simplified traversal for MVP finding blocks linked to Brazil directly or indirectly
   const knockoutPath: BrazilPathVM['knockoutPath'] = [];

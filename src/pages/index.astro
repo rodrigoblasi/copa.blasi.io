@@ -18,16 +18,20 @@ const meta = getHomeMetadata(Astro.site?.toString() || 'http://localhost:4321');
 ---
 <BaseLayout title={meta.title} description={meta.description}>
   <SiteNav />
+
   <TournamentHeader title={vm.header.tournamentName} />
   
   <BrazilHighlight match={vm.brazilHighlight.nextMatch} status={vm.brazilHighlight.status} />
-  
-  <div class="home-tabelao">
-    <div class="home-groups">
+
+  <div class="tabelao">
+    <!-- Fase de Grupos -->
+    <section class="tabelao-groups">
       {vm.groups.map(g => <GroupSection group={g} />)}
-    </div>
-    <aside class="home-knockout">
-      <KnockoutBracket blocks={vm.knockout} />
-    </aside>
+    </section>
+
+    <!-- Mata-Mata -->
+    <section class="tabelao-knockout">
+      <KnockoutBracket blocks={vm.knockout} matches={tournament.matches} />
+    </section>
   </div>
 </BaseLayout>

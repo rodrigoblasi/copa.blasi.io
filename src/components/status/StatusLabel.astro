@@ -1,12 +1,32 @@
 ---
 import '../../styles/status.css';
+import type { MatchStatus, FreshnessState, ScoreState, KnockoutSlotStatus } from '../../lib/data/types';
 
 interface Props {
-  state: 'pending' | 'fresh' | 'stale' | 'conflicting' | 'source-problem' | 'live' | 'finished' | 'future' | 'unknown';
+  state: MatchStatus | FreshnessState | ScoreState | KnockoutSlotStatus;
   label?: string;
 }
 const { state, label } = Astro.props;
+const stateClassMap: Record<Props['state'], string> = {
+  pending: 'pending',
+  fresh: 'fresh',
+  stale: 'stale',
+  conflicting: 'conflicting',
+  'source-problem': 'source-problem',
+  live: 'live',
+  finished: 'finished',
+  future: 'future',
+  unknown: 'unknown',
+  postponed: 'source-problem',
+  cancelled: 'source-problem',
+  'data-problem': 'source-problem',
+  conditional: 'conflicting',
+  confirmed: 'fresh',
+  unavailable: 'pending',
+  final: 'finished',
+  disputed: 'conflicting'
+};
 ---
-<span class={`status-pill status-${state}`}>
+<span class={`status-pill status-${stateClassMap[state]}`}>
   {label || state}
 </span>

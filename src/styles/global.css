@@ -1,40 +1,64 @@
 @import './tokens.css';
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
+  font-size: 13px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 main {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
 }
 
-a, button {
-  transition: outline 0.2s;
+h1, h2, h3, h4 {
+  line-height: 1.2;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
 }
 
 a:focus-visible, button:focus-visible {
-  outline: 3px solid var(--color-focus);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 .skip-link {
   position: absolute;
   top: -40px;
   left: 0;
-  background: var(--color-text);
-  color: white;
-  padding: 8px;
+  background: var(--color-accent);
+  color: #1a1a2e;
+  padding: var(--space-1) var(--space-2);
+  font-weight: 600;
+  font-size: 0.7rem;
   z-index: 100;
 }
 
 .skip-link:focus {
   top: 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
 }

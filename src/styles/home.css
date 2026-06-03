@@ -1,28 +1,56 @@
-.home-tabelao {
+/* Tabelão — two sections stacked */
+.tabelao {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-8);
 }
 
-.home-groups {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
+/* Groups section — 2 rows x 6 columns */
+.tabelao-groups {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-3);
 }
 
-@media (min-width: 768px) {
-  .home-tabelao {
-    flex-direction: row;
-    align-items: flex-start;
+@media (max-width: 1200px) {
+  .tabelao-groups {
+    grid-template-columns: repeat(4, 1fr);
   }
-  .home-groups {
-    flex: 2;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .tabelao-groups {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .home-knockout {
-    flex: 1;
-    position: sticky;
-    top: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .tabelao-groups {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Knockout section — bracket layout */
+.tabelao-knockout {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.knockout-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .knockout-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .knockout-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

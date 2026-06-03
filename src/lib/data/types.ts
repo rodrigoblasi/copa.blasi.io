@@ -24,11 +24,20 @@ export interface Match {
   slug: string;
   phaseId: string;
   groupId?: string | null;
+  round?: string;
   date: string | null;
   kickoffBrt: string | null;
   status: MatchStatus;
   homeTeamId: string | null;
   awayTeamId: string | null;
+  homeTeamName?: string | null;
+  awayTeamName?: string | null;
+  homeTeamCode?: string | null;
+  awayTeamCode?: string | null;
+  homeTeamLabel?: string | null;
+  awayTeamLabel?: string | null;
+  venue?: string | null;
+  city?: string | null;
   score: Score | null;
   freshnessState: FreshnessState;
 }

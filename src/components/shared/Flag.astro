@@ -1,0 +1,52 @@
+---
+interface Props {
+  code: string;  // FIFA 3-letter code
+  size?: 'sm' | 'md' | 'lg';
+}
+const { code, size = 'sm' } = Astro.props;
+
+// FIFA 3-letter → ISO 2-letter mapping
+const fifaToIso: Record<string, string> = {
+  'MEX': 'mx', 'RSA': 'za', 'KOR': 'kr', 'CZE': 'cz',
+  'CAN': 'ca', 'BIH': 'ba', 'QAT': 'qa', 'SUI': 'ch',
+  'BRA': 'br', 'MAR': 'ma', 'HAI': 'ht', 'SCO': 'gb-sct',
+  'USA': 'us', 'PAR': 'py', 'AUS': 'au', 'TUR': 'tr',
+  'GER': 'de', 'CUW': 'cw', 'CIV': 'ci', 'ECU': 'ec',
+  'NED': 'nl', 'JPN': 'jp', 'SWE': 'se', 'TUN': 'tn',
+  'BEL': 'be', 'EGY': 'eg', 'IRN': 'ir', 'NZL': 'nz',
+  'ESP': 'es', 'CPV': 'cv', 'KSA': 'sa', 'URU': 'uy',
+  'FRA': 'fr', 'SEN': 'sn', 'IRQ': 'iq', 'NOR': 'no',
+  'ARG': 'ar', 'ALG': 'dz', 'AUT': 'at', 'JOR': 'jo',
+  'POR': 'pt', 'COD': 'cd', 'UZB': 'uz', 'COL': 'co',
+  'ENG': 'gb-eng', 'CRO': 'hr', 'GHA': 'gh', 'PAN': 'pa',
+};
+
+const iso = fifaToIso[code?.toUpperCase()] || '';
+const sizes = { sm: 20, md: 40, lg: 80 };
+const px = sizes[size];
+const px2x = size === 'sm' ? 40 : size === 'md' ? 80 : 128;
+---
+
+{iso && (
+  <img
+    src={`https://flagcdn.com/w${px}/${iso}.png`}
+    srcset={`https://flagcdn.com/w${px2x}/${iso}.png 2x`}
+    width={px}
+    height={Math.round(px * 0.67)}
+    alt={`Bandeira ${code}`}
+    loading="lazy"
+    class:list={['flag', `flag-${size}`]}
+  />
+)}
+
+<style>
+  .flag {
+    border-radius: 1px;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+  }
+  .flag-sm { width: 20px; height: 13px; }
+  .flag-md { width: 28px; height: 19px; }
+  .flag-lg { width: 40px; height: 27px; }
+</style>

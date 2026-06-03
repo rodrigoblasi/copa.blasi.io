@@ -7,9 +7,19 @@ interface Props {
   matches: Match[];
 }
 const { date, matches } = Astro.props;
+
+const weekdays = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+const months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+
+function friendlyDay(dateStr: string): string {
+  if (!dateStr || dateStr === 'TBD') return 'A definir';
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  return `${weekdays[dt.getDay()]}, ${d} de ${months[m - 1]}`;
+}
 ---
 <div class="calendar-day">
-  <h4 class="day-header">{date}</h4>
+  <h4 class="day-header">{friendlyDay(date)}</h4>
   <div class="day-matches">
     {matches.map(m => <MatchBlock match={m} />)}
   </div>
