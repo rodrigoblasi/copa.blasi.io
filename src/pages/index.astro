@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteNav from '../components/navigation/SiteNav.astro';
+import TournamentHeader from '../components/home/TournamentHeader.astro';
+import BrazilHighlight from '../components/home/BrazilHighlight.astro';
+import GroupSection from '../components/home/GroupSection.astro';
+import KnockoutBracket from '../components/home/KnockoutBracket.astro';
+
+import { loadTournament } from '../lib/data/loadTournament';
+import { buildHomeOverview } from '../lib/data/homeOverview';
+import { getHomeMetadata } from '../lib/seo/pageMetadata';
+
+import '../styles/home.css';
+
+const tournament = loadTournament();
+const vm = buildHomeOverview(tournament);
+const meta = getHomeMetadata(Astro.site?.toString() || 'http://localhost:4321');
+---
+<BaseLayout title={meta.title} description={meta.description}>
+  <SiteNav />
+  <TournamentHeader title={vm.header.tournamentName} />
+  
+  <BrazilHighlight match={vm.brazilHighlight.nextMatch} status={vm.brazilHighlight.status} />
+  
+  <div class="home-tabelao">
+    <div class="home-groups">
+      {vm.groups.map(g => <GroupSection group={g} />)}
+    </div>
+    <aside class="home-knockout">
+      <KnockoutBracket blocks={vm.knockout} />
+    </aside>
+  </div>
+</BaseLayout>

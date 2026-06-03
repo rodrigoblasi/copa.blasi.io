@@ -32,8 +32,9 @@ The public deployment target is the subdomain copa.blasi.io.
   project design brief and `.opencode/commands/copa.uiux.md` as the reusable
   OpenCode entrypoint.
 - For implementation sessions and review gates, use
-  `docs/spec-kit-session-methodology.md`, `docs/spec-kit-gates.md`,
-  `docs/github-record-templates.md`, and `docs/reviewer-session-prompt.md`.
+  `docs/dev-session-prompt.md`, `docs/spec-kit-session-methodology.md`,
+  `docs/spec-kit-gates.md`, `docs/github-record-templates.md`, and
+  `docs/reviewer-session-prompt.md`.
 - Reviewer is normally a subagent invoked by the dev at the end of each gate;
   manual reviewer sessions are reserved for escalation or owner-requested audits.
 <!-- SPECKIT END -->

@@ -1,0 +1,33 @@
+---
+import type { Match } from '../../lib/data/types';
+import MatchBlock from './MatchBlock.astro';
+
+interface Props {
+  date: string;
+  matches: Match[];
+}
+const { date, matches } = Astro.props;
+---
+<div class="calendar-day">
+  <h4 class="day-header">{date}</h4>
+  <div class="day-matches">
+    {matches.map(m => <MatchBlock match={m} />)}
+  </div>
+</div>
+<style>
+  .calendar-day {
+    margin-bottom: var(--space-4);
+  }
+  .day-header {
+    margin: 0 0 var(--space-2) 0;
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-1);
+  }
+  .day-matches {
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+</style>

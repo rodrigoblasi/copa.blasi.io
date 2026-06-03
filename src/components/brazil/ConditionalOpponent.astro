@@ -1,0 +1,21 @@
+---
+interface Props {
+  info: { type: 'confirmed' | 'conditional' | 'unknown'; label: string };
+}
+const { info } = Astro.props;
+---
+<div class={`opponent-info type-${info.type}`}>
+  {info.type === 'conditional' && <span class="badge">Condicional</span>}
+  <span class="label">{info.label}</span>
+</div>
+<style>
+  .opponent-info {
+    padding: var(--space-2);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background: var(--color-bg-alt);
+    border: 1px dashed var(--color-border);
+  }
+  .type-confirmed { border-style: solid; font-weight: 600; }
+  .badge { display: block; font-size: 0.7rem; color: var(--color-text-muted); text-transform: uppercase; margin-bottom: 2px;}
+</style>

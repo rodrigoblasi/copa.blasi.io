@@ -1,0 +1,40 @@
+---
+import type { KnockoutBlock } from '../../lib/data/types';
+
+interface Props {
+  blocks: KnockoutBlock[];
+}
+const { blocks } = Astro.props;
+---
+<section class="knockout-bracket">
+  <h2>Mata-Mata</h2>
+  <div class="bracket-grid">
+    {blocks.map(b => (
+      <div class="knockout-block">
+        <div class="round">{b.round}</div>
+        <div class="slots">
+          {b.slotIds.map(sid => <div class="slot">{sid}</div>)}
+        </div>
+      </div>
+    ))}
+    {blocks.length === 0 && <p class="empty-state">Chaveamento não disponível.</p>}
+  </div>
+</section>
+<style>
+  .knockout-bracket {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #f0f4f8;
+    border-radius: 8px;
+  }
+  .knockout-block {
+    background: white;
+    padding: 0.5rem;
+    border: 1px solid var(--color-border);
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+  }
+  .round { font-size: 0.8rem; color: #666; margin-bottom: 0.5rem; }
+  .slot { font-weight: bold; padding: 0.2rem 0; }
+  .empty-state { color: #888; font-size: 0.9rem; }
+</style>

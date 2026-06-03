@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteNav from '../components/navigation/SiteNav.astro';
+import RadarItem from '../components/radar/RadarItem.astro';
+import { buildRadarView } from '../lib/data/radarView';
+import { getRadarMetadata } from '../lib/seo/pageMetadata';
+
+const items = buildRadarView();
+const meta = getRadarMetadata(Astro.site?.toString() || 'http://localhost:4321');
+---
+<BaseLayout title={meta.title} description={meta.description}>
+  <SiteNav />
+  <header class="radar-header">
+    <h1>Radar da Copa</h1>
+    <p>Sinais, contexto e atenção sobre o momento atual do torneio.</p>
+  </header>
+  
+  <div class="radar-container">
+    {items.map(item => <RadarItem item={item} />)}
+    {items.length === 0 && <p class="empty-state">Sem avisos no radar no momento.</p>}
+  </div>
+</BaseLayout>
+
+<style>
+  .radar-header {
+    margin-bottom: var(--space-6);
+  }
+  .empty-state {
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+</style>

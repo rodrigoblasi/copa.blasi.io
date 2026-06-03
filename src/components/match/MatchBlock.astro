@@ -1,0 +1,42 @@
+---
+import type { Match } from '../../lib/data/types';
+import StatusLabel from '../status/StatusLabel.astro';
+
+interface Props {
+  match: Match;
+}
+const { match } = Astro.props;
+---
+<div class="match-block">
+  <div class="match-info">
+    <span class="match-time">{match.date} {match.kickoffBrt}</span>
+    <StatusLabel state={match.status === 'future' ? match.freshnessState : match.status} />
+  </div>
+  <div class="match-teams">
+    <div class="team">{match.homeTeamId || 'A definir'}</div>
+    <div class="vs">x</div>
+    <div class="team">{match.awayTeamId || 'A definir'}</div>
+  </div>
+</div>
+<style>
+  .match-block {
+    background: #f9f9f9;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .match-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    color: #555;
+  }
+  .match-teams {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+  }
+</style>

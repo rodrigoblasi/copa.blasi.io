@@ -1,0 +1,13 @@
+.status-pill {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  font-size: 0.75rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.status-fresh, .status-live { background: #e6f4ea; color: #137333; }
+.status-stale, .status-pending, .status-future { background: #fef7e0; color: #b06000; }
+.status-conflicting, .status-source-problem { background: #fce8e6; color: #c5221f; }
+.status-finished { background: #f1f3f4; color: #3c4043; }
+.status-unknown { background: #e8eaed; color: #5f6368; }

@@ -1,0 +1,23 @@
+---
+interface Props {
+  notes: string[];
+}
+const { notes } = Astro.props;
+---
+{notes.length > 0 && (
+  <section class="match-notes">
+    <h3>Notas Editoriais</h3>
+    <ul>
+      {notes.map(note => <li>{note}</li>)}
+    </ul>
+  </section>
+)}
+<style>
+  .match-notes {
+    background: #fff9c4;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-6);
+  }
+  .match-notes h3 { margin-top: 0; }
+</style>

@@ -1,0 +1,29 @@
+---
+const pathname = new URL(Astro.request.url).pathname;
+const currentPath = pathname.slice(1); // remove leading slash
+---
+<nav class="site-nav">
+  <a class={currentPath === "" ? "active" : ""} href="/">Home</a>
+  <a class={currentPath === "calendario" ? "active" : ""} href="/calendario">Calendário</a>
+  <a class={currentPath === "brasil" ? "active" : ""} href="/brasil">Brasil</a>
+  <a class={currentPath === "radar" ? "active" : ""} href="/radar">Radar</a>
+</nav>
+
+<style>
+  .site-nav {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1.5rem;
+  }
+  .site-nav a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+  .site-nav a.active {
+    color: var(--color-brazil);
+    border-bottom: 2px solid var(--color-brazil);
+  }
+</style>

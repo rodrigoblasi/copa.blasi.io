@@ -1,0 +1,25 @@
+{
+  "id": "wc2026",
+  "name": "FIFA World Cup 2026",
+  "teams": [
+    { "id": "br", "name": "Brazil", "shortName": "BRA", "isBrazil": true, "groupId": "g_g" },
+    { "id": "sr", "name": "Serbia", "shortName": "SRB", "isBrazil": false, "groupId": "g_g" }
+  ],
+  "matches": [
+    {
+      "id": "m1", "slug": "brazil-serbia", "phaseId": "groups", "groupId": "g_g",
+      "date": "2026-06-11", "kickoffBrt": "16:00", "status": "future",
+      "homeTeamId": "br", "awayTeamId": "sr", "score": null, "freshnessState": "fresh"
+    }
+  ],
+  "groups": [
+    { "id": "g_g", "label": "Group G", "teamIds": ["br", "sr"], "matchIds": ["m1"] }
+  ],
+  "knockoutSlots": [
+    { "id": "slot_w_g", "status": "pending", "teamId": null },
+    { "id": "slot_r_h", "status": "pending", "teamId": null }
+  ],
+  "knockoutBlocks": [
+    { "id": "kb_r16_1", "round": "Round of 16", "matchId": null, "displayOrder": 1, "slotIds": ["slot_w_g", "slot_r_h"], "advancesToSlotId": null }
+  ]
+}

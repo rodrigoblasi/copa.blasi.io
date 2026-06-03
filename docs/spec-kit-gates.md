@@ -4,7 +4,7 @@
 
 Gates are based on implementation and review meaning, not on the number of tasks.
 Each gate must be small enough for one dev session to implement and one reviewer
-session to review with confidence.
+subagent invocation to review with confidence.
 
 Each gate must have:
 

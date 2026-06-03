@@ -1,0 +1,33 @@
+{
+  "name": "copa.blasi.io",
+  "version": "1.0.0",
+  "description": "Copa Folheto MVP",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "check": "astro check",
+    "data:validate": "tsx src/scripts/validate-data.ts",
+    "data:build": "tsx src/scripts/build-public-data.ts",
+    "data:refresh": "tsx src/scripts/refresh-data.ts"
+  },
+  "dependencies": {
+    "astro": "^5.0.0",
+    "typescript": "^5.0.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^22.0.0",
+    "axe-core": "^4.10.2",
+    "tsx": "^4.22.4",
+    "vitest": "^3.0.0"
+  }
+}

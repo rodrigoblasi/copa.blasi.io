@@ -1,0 +1,12 @@
+---
+import '../../styles/status.css';
+
+interface Props {
+  state: 'pending' | 'fresh' | 'stale' | 'conflicting' | 'source-problem' | 'live' | 'finished' | 'future' | 'unknown';
+  label?: string;
+}
+const { state, label } = Astro.props;
+---
+<span class={`status-pill status-${state}`}>
+  {label || state}
+</span>

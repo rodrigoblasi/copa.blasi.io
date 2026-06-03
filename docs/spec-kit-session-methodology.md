@@ -25,6 +25,7 @@ The dev uses `/speckit.implement` as the working entrypoint and must read:
 - `docs/spec-kit-session-methodology.md`
 - `docs/spec-kit-gates.md`
 - `docs/github-record-templates.md`
+- `docs/dev-session-prompt.md`
 
 The dev must not advance to the next gate without reviewer approval for the
 current gate.
@@ -140,21 +141,22 @@ into the GitHub gate/task issue. The record should identify the reviewer mode as
 
 ## Dev Session Procedure
 
-1. Read `AGENTS.md` and the current plan.
-2. Read this methodology and gate catalog.
-3. Identify the current gate and task IDs.
-4. Verify the previous gate has reviewer `APPROVED` status.
-5. Use `/speckit.implement` for implementation.
-6. Implement only the current gate scope.
-7. Run the tests/checks required by the gate.
-8. Update `tasks.md` task checkboxes and gate evidence notes as appropriate.
-9. Comment on the GitHub task/gate issue using the dev completion template.
-10. Invoke a reviewer subagent using `docs/reviewer-session-prompt.md` and the
+1. Start from `docs/dev-session-prompt.md`.
+2. Read `AGENTS.md` and the current plan.
+3. Read this methodology and gate catalog.
+4. Identify the current gate and task IDs.
+5. Verify the previous gate has reviewer `APPROVED` status.
+6. Use `/speckit.implement` for implementation.
+7. Implement only the current gate scope.
+8. Run the tests/checks required by the gate.
+9. Update `tasks.md` task checkboxes and gate evidence notes as appropriate.
+10. Comment on the GitHub task/gate issue using the dev completion template.
+11. Invoke a reviewer subagent using `docs/reviewer-session-prompt.md` and the
     current gate context.
-11. Wait for the reviewer subagent decision.
-12. If `BLOCKED`, fix only the blocked gate scope, update evidence, and invoke a
+12. Wait for the reviewer subagent decision.
+13. If `BLOCKED`, fix only the blocked gate scope, update evidence, and invoke a
     reviewer subagent again.
-13. If `APPROVED`, copy the reviewer decision to GitHub, update `tasks.md` gate
+14. If `APPROVED`, copy the reviewer decision to GitHub, update `tasks.md` gate
     evidence, and advance to the next gate.
 
 ## Reviewer Subagent Procedure
