@@ -1,24 +1,14 @@
 <!--
 Sync Impact Report
-Version change: 1.0.0 -> 1.1.0
+Version change: 1.1.0 -> 1.1.1
 Modified principles:
-- I. Personal Public Folheto -> I. Personal Public Folheto
-- II. Editorial Clarity Over Generic Dashboards -> II. Editorial Clarity Over Generic Dashboards
-- III. Verified Scheduled Data -> III. Verified Scheduled Data
-- IV. Public Repo Hygiene -> IV. GitHub-First Public Governance
-- V. Operable Backend Observability -> VI. Operable Backend Observability
+- IV. GitHub-First Public Governance (clarified subproject governance)
 Added sections:
-- V. Public Repo Hygiene and Personal Data Minimization
+- None
 Removed sections:
 - None
 Templates requiring updates:
-- ✅ updated .specify/templates/plan-template.md
-- ✅ updated .specify/templates/spec-template.md
-- ✅ updated .specify/templates/tasks-template.md
-- ✅ reviewed .specify/templates/checklist-template.md
-- ✅ updated AGENTS.md
-- ✅ reviewed .opencode/commands/*.md; no project-specific outdated references found
-- ⚠ pending .specify/templates/commands/*.md; directory does not exist in this repo
+- None
 Follow-up TODOs:
 - None
 -->
@@ -73,6 +63,9 @@ Specs, plans, tasks, operational decisions, data-source problems, deployment not
 and constitution amendments MUST reference the relevant GitHub issue, branch, or
 commit when applicable. The public deployment target is `copa.blasi.io`, and work
 that affects that subdomain MUST keep its operational trail in GitHub.
+This site is a subproject/tool inside the broader Copa tracking project, so the
+repo governs implementation and operations for the site while the Starlog project
+docs preserve the higher-level tournament context.
 
 Rationale: a public personal project needs one durable audit trail instead of
 scattered decisions across chat, local files, or private notes.
@@ -141,6 +134,16 @@ This constitution supersedes specs, plans, tasks, and ad hoc implementation
 preferences for `copa.blasi.io`. Any conflicting artifact MUST be updated before
 implementation proceeds.
 
+For day-to-day governance of this subproject:
+- scope changes, data-source changes, and deployment decisions MUST be tracked in
+  GitHub before they are treated as durable;
+- local notes in the workspace are provisional working memory until mirrored in
+  GitHub;
+- implementation records SHOULD prefer issues, PRs, commit messages, and review
+  notes over chat summaries;
+- changes that affect public content or deployment behavior SHOULD name the
+  relevant issue or commit in the record trail.
+
 Amendments require a documented rationale, a GitHub issue or commit reference for
 the decision, a semantic version bump, and a Sync Impact Report in this file. The
 owner approves amendments. Governance and operational decisions that are not
@@ -160,4 +163,4 @@ UX, data provenance, scheduled refreshes, fallback behavior, logging, privacy
 hygiene, personal-data minimization, subdomain impact, and independent validation
 match this constitution.
 
-**Version**: 1.1.0 | **Ratified**: 2026-06-03 | **Last Amended**: 2026-06-03
+**Version**: 1.1.1 | **Ratified**: 2026-06-03 | **Last Amended**: 2026-06-03

@@ -11,4 +11,20 @@ do not add secrets, private notes, unnecessary personal data, sensitive metadata
 or local artifacts to files, issues, comments, logs, commits, or public pages.
 
 The public deployment target is the subdomain copa.blasi.io.
+
+## Development Record
+
+- `copa.blasi.io` is a subproject/tool of the broader Copa tracking project, not
+  a separate source of tournament truth.
+- The GitHub repository is the mandatory governance ledger for this site; if a
+  decision matters beyond the current chat, it belongs in GitHub.
+- Durable records live in issues, branches, commits, pull requests, reviews, and
+  deployment notes. Chat can seed work, but it does not replace the trail.
+- Starlog keeps the tournament context and project framing; GitHub keeps the site
+  implementation, operational history, and public audit trail.
+- Any change that affects public content, data sources, scheduled refreshes,
+  deployment behavior, or observability should point back to the relevant issue
+  or commit.
+- Public hygiene is non-negotiable: no secrets, no personal notes, no accidental
+  local artifacts, and no sensitive metadata in the repo.
 <!-- SPECKIT END -->
