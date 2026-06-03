@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteNav from '../components/navigation/SiteNav.astro';
+import PhaseCalendar from '../components/match/PhaseCalendar.astro';
+import { loadTournament } from '../lib/data/loadTournament';
+import { buildCalendarView } from '../lib/data/calendarView';
+import { getCalendarMetadata } from '../lib/seo/pageMetadata';
+
+const tournament = loadTournament();
+const phases = buildCalendarView(tournament);
+const meta = getCalendarMetadata(Astro.site?.toString() || 'http://localhost:4321');
+---
+<BaseLayout title={meta.title} description={meta.description}>
+  <SiteNav />
+  <header>
+    <h1>Calendário Completo</h1>
+    <p>Todos os jogos programados da Copa do Mundo 2026.</p>
+  </header>
+  
+  <div class="calendar-container">
+    {phases.map(p => <PhaseCalendar phase={p} />)}
+  </div>
+</BaseLayout>
+
+<style>
+  header {
+    margin-bottom: var(--space-6);
+  }
+  h1 {
+    margin: 0 0 var(--space-2) 0;
+  }
+  p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import type { Match } from '../../lib/data/types';
+import MatchBlock from '../match/MatchBlock.astro';
+
+interface Props {
+  match: Match | null;
+  status: string;
+}
+const { match, status } = Astro.props;
+---
+
+<section class="brazil-highlight">
+  <div class="brazil-header">
+    <span class="flag-icon">🇧🇷</span>
+    <div>
+      <h2>Brasil na Copa</h2>
+      <p class="brazil-status">{status}</p>
+    </div>
+  </div>
+  {match && (
+    <div class="brazil-match-wrapper">
+      <MatchBlock match={match} featured={true} />
+    </div>
+  )}
+</section>
+
+<style>
+  .brazil-highlight {
+    background: var(--color-brazil-bg);
+    border: 1px solid var(--color-brazil-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  .brazil-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .flag-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+  .brazil-highlight h2 {
+    color: var(--color-brazil);
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .brazil-status {
+    color: var(--color-text-muted);
+    margin: 2px 0 0;
+    font-size: 0.7rem;
+  }
+  .brazil-match-wrapper {
+    margin-top: var(--space-1);
+  }
+</style>

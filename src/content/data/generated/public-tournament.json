@@ -1,0 +1,13 @@
+{
+  "id": "wc2026",
+  "name": "FIFA World Cup 2026",
+  "teams": [
+    {
+      "id": "br",
+      "name": "Brazil",
+      "shortName": "BRA",
+      "isBrazil": true
+    }
+  ],
+  "matches": []
+}

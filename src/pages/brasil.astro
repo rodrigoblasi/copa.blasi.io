@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteNav from '../components/navigation/SiteNav.astro';
+import BrazilPath from '../components/brazil/BrazilPath.astro';
+
+import { loadTournament } from '../lib/data/loadTournament';
+import { buildBrazilPath } from '../lib/data/brazilPath';
+import { getBrazilMetadata } from '../lib/seo/pageMetadata';
+
+const tournament = loadTournament();
+const pathVM = buildBrazilPath(tournament);
+const meta = getBrazilMetadata(Astro.site?.toString() || 'http://localhost:4321');
+---
+<BaseLayout title={meta.title} description={meta.description}>
+  <SiteNav />
+  <header class="brazil-header">
+    <h1>Caminho do Brasil</h1>
+    <p>Acompanhe os jogos da Seleção Brasileira na Copa do Mundo 2026.</p>
+  </header>
+  
+  <BrazilPath pathVM={pathVM} />
+</BaseLayout>
+
+<style>
+  .brazil-header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 2px solid var(--color-brazil);
+  }
+  .brazil-header h1 {
+    color: var(--color-brazil);
+    margin: 0 0 var(--space-2) 0;
+  }
+</style>

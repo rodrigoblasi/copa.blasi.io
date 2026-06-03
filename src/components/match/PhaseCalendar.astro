@@ -1,0 +1,25 @@
+---
+import type { PhaseCalendarVM } from '../../lib/data/calendarView';
+import CalendarDay from './CalendarDay.astro';
+
+interface Props {
+  phase: PhaseCalendarVM;
+}
+const { phase } = Astro.props;
+---
+<section class="phase-calendar">
+  <h2 class="phase-title">{phase.phaseId}</h2>
+  <div class="phase-days">
+    {phase.days.map(d => <CalendarDay date={d.date} matches={d.matches} />)}
+  </div>
+</section>
+<style>
+  .phase-calendar {
+    margin-bottom: var(--space-8);
+  }
+  .phase-title {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-4);
+    text-transform: capitalize;
+  }
+</style>

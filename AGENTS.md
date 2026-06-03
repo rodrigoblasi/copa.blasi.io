@@ -1,6 +1,7 @@
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
+at specs/001-copa-folheto-mvp/plan.md
 
 Project governance and operations MUST be tracked in the public GitHub repo:
 https://github.com/rodrigoblasi/copa.blasi.io/
@@ -27,4 +28,13 @@ The public deployment target is the subdomain copa.blasi.io.
   or commit.
 - Public hygiene is non-negotiable: no secrets, no personal notes, no accidental
   local artifacts, and no sensitive metadata in the repo.
+- For UI/UX work, use `specs/001-copa-folheto-mvp/ux-intelligence.md` as the
+  project design brief and `.opencode/commands/copa.uiux.md` as the reusable
+  OpenCode entrypoint.
+- For implementation sessions and review gates, use
+  `docs/dev-session-prompt.md`, `docs/spec-kit-session-methodology.md`,
+  `docs/spec-kit-gates.md`, `docs/github-record-templates.md`, and
+  `docs/reviewer-session-prompt.md`.
+- Reviewer is normally a subagent invoked by the dev at the end of each gate;
+  manual reviewer sessions are reserved for escalation or owner-requested audits.
 <!-- SPECKIT END -->

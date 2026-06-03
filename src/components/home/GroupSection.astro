@@ -1,0 +1,49 @@
+---
+import type { GroupSection, Match } from '../../lib/data/types';
+import MatchBlock from '../match/MatchBlock.astro';
+
+interface Props {
+  group: GroupSection & { matchesDetails: Match[] };
+}
+const { group } = Astro.props;
+---
+
+<section class="group-section">
+  <div class="group-header">
+    <h3>{group.label}</h3>
+  </div>
+  <div class="group-matches">
+    {group.matchesDetails.map(m => (
+      <MatchBlock match={m} />
+    ))}
+  </div>
+</section>
+
+<style>
+  .group-section {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .group-header {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .group-header h3 {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  .group-matches {
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+</style>

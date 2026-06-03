@@ -1,0 +1,373 @@
+---
+import type { KnockoutBlock, Match } from '../../lib/data/types';
+import Flag from '../shared/Flag.astro';
+
+interface Props {
+  blocks: KnockoutBlock[];
+  matches: Match[];
+}
+const { blocks, matches } = Astro.props;
+
+const roundLabels: Record<string, string> = {
+  'r32': 'R32',
+  'r16': 'Oitavas',
+  'qf': 'Quartas',
+  'sf': 'Semifinal',
+  'third': '3º Lugar',
+  'final': 'Final',
+};
+
+function translateSlot(label: string): string {
+  if (!label) return '?';
+  return label
+    .replace('Winner Group', '1º Grp')
+    .replace('Runner-up Group', '2º Grp')
+    .replace('Winner Match', 'Venc. J')
+    .replace('Loser Match', 'Perd. J')
+    .replace(/3rd Group (.+)/, '3º Grp $1');
+}
+
+function friendlyShort(dateStr: string | null): string {
+  if (!dateStr) return '';
+  const [y, m, d] = dateStr.split('-').map(Number);
+  return `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}`;
+}
+
+// Group matches by round
+const roundOrder = ['r32', 'r16', 'qf', 'sf', 'third', 'final'];
+const rounds = new Map<string, Match[]>();
+for (const m of matches) {
+  if (m.phaseId !== 'knockout') continue;
+  const round = m.round || 'unknown';
+  if (!rounds.has(round)) rounds.set(round, []);
+  rounds.get(round)!.push(m);
+}
+
+// Build bracket sides
+const r32 = rounds.get('Round of 32') || [];
+const r16 = rounds.get('Round of 16') || [];
+const qf = rounds.get('Quartas de Final') || [];
+const sf = rounds.get('Semifinal') || [];
+const third = rounds.get('Disputa de 3º lugar') || [];
+const final = rounds.get('Final') || [];
+
+const leftR32 = r32.slice(0, 8);
+const rightR32 = r32.slice(8);
+const leftR16 = r16.slice(0, 4);
+const rightR16 = r16.slice(4);
+const leftQF = qf.slice(0, 2);
+const rightQF = qf.slice(2);
+---
+
+<div class="bracket">
+  <h2 class="bracket-title">Mata-Mata</h2>
+
+  <div class="bracket-layout">
+    <!-- LEFT SIDE -->
+    <div class="bracket-side left">
+      <div class="bracket-round-col">
+        <h5 class="col-label">R32</h5>
+        {leftR32.map(m => (
+          <div class="bracket-match">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+      <div class="bracket-round-col">
+        <h5 class="col-label">Oitavas</h5>
+        {leftR16.map(m => (
+          <div class="bracket-match">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+      <div class="bracket-round-col">
+        <h5 class="col-label">Quartas</h5>
+        {leftQF.map(m => (
+          <div class="bracket-match">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+      <div class="bracket-round-col">
+        <h5 class="col-label">Semi</h5>
+        {sf.slice(0, 1).map(m => (
+          <div class="bracket-match semi">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- CENTER — Final + 3rd place -->
+    <div class="bracket-center">
+      {third.map(m => (
+        <div class="bracket-match third">
+          <div class="bm-round-label">3º Lugar</div>
+          <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+          <div class="bm-slot">
+            <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+          </div>
+          <div class="bm-vs">×</div>
+          <div class="bm-slot">
+            <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+          </div>
+          {m.city && <div class="bm-venue">{m.city}</div>}
+        </div>
+      ))}
+      {final.map(m => (
+        <div class="bracket-match final">
+          <div class="bm-round-label">🏆 Final</div>
+          <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+          <div class="bm-slot">
+            <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+          </div>
+          <div class="bm-vs">×</div>
+          <div class="bm-slot">
+            <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+          </div>
+          {m.city && <div class="bm-venue">{m.city}</div>}
+        </div>
+      ))}
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="bracket-side right">
+      <div class="bracket-round-col">
+        <h5 class="col-label">Semi</h5>
+        {sf.slice(1, 2).map(m => (
+          <div class="bracket-match semi">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+      <div class="bracket-round-col">
+        <h5 class="col-label">Quartas</h5>
+        {rightQF.map(m => (
+          <div class="bracket-match">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+      <div class="bracket-round-col">
+        <h5 class="col-label">Oitavas</h5>
+        {rightR16.map(m => (
+          <div class="bracket-match">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+      <div class="bracket-round-col">
+        <h5 class="col-label">R32</h5>
+        {rightR32.map(m => (
+          <div class="bracket-match">
+            <div class="bm-meta">{friendlyShort(m.date)} · {m.kickoffBrt}</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.homeTeamLabel || '')}</span>
+            </div>
+            <div class="bm-vs">×</div>
+            <div class="bm-slot">
+              <span class="bm-label">{translateSlot(m.awayTeamLabel || '')}</span>
+            </div>
+            {m.city && <div class="bm-venue">{m.city}</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bracket {
+    padding: var(--space-4);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+  }
+  .bracket-title {
+    margin: 0 0 var(--space-4);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .bracket-layout {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: var(--space-4);
+    min-width: 800px;
+  }
+
+  .bracket-side {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+  }
+  .bracket-side.right {
+    direction: rtl;
+  }
+  .bracket-side.right .bracket-round-col {
+    direction: ltr;
+  }
+
+  .bracket-center {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    justify-content: center;
+    align-items: center;
+    min-width: 180px;
+  }
+
+  .col-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-2);
+    padding-bottom: var(--space-1);
+    border-bottom: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  .bracket-round-col {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .bracket-match {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 4px 6px;
+  }
+  .bracket-match.semi {
+    border-color: var(--color-phase-sf);
+    border-width: 1px;
+  }
+  .bracket-match.third {
+    border-color: var(--color-phase-qf);
+    background: rgba(239, 68, 68, 0.06);
+  }
+  .bracket-match.final {
+    border-color: var(--color-phase-final);
+    border-width: 2px;
+    background: rgba(236, 72, 153, 0.08);
+    padding: 8px;
+  }
+
+  .bm-round-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 2px;
+    text-align: center;
+  }
+  .bm-meta {
+    font-size: 0.55rem;
+    color: var(--color-accent);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .bm-slot {
+    padding: 1px 0;
+  }
+  .bm-label {
+    font-size: 0.6rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+  .bm-vs {
+    font-size: 0.5rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    font-weight: 300;
+  }
+  .bm-venue {
+    font-size: 0.5rem;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1000px) {
+    .bracket-layout {
+      grid-template-columns: 1fr;
+      min-width: 0;
+    }
+    .bracket-side {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .bracket-side.right {
+      direction: ltr;
+    }
+    .bracket-center {
+      flex-direction: row;
+      min-width: 0;
+    }
+  }
+</style>

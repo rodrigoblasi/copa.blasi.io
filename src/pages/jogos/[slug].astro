@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteNav from '../../components/navigation/SiteNav.astro';
+import MatchHeader from '../../components/match/MatchHeader.astro';
+import MatchNotes from '../../components/match/MatchNotes.astro';
+
+import { loadTournament } from '../../lib/data/loadTournament';
+import { buildMatchDetail } from '../../lib/data/matchDetail';
+import { getMatchMetadata } from '../../lib/seo/pageMetadata';
+
+export async function getStaticPaths() {
+  const tournament = loadTournament();
+  return tournament.matches.map(match => ({
+    params: { slug: match.slug }
+  }));
+}
+
+const { slug } = Astro.params;
+const tournament = loadTournament();
+const vm = buildMatchDetail(tournament, slug);
+
+if (!vm) {
+  return Astro.redirect('/');
+}
+
+const meta = getMatchMetadata(slug, Astro.site?.toString() || 'http://localhost:4321', vm.homeTeam?.name, vm.awayTeam?.name);
+---
+<BaseLayout title={meta.title} description={meta.description}>
+  <SiteNav />
+  <div class="match-detail-container">
+    <a href="/" class="back-link">&larr; Voltar para o Tabelão</a>
+    <MatchHeader vm={vm} />
+    <MatchNotes notes={vm.notes} />
+  </div>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    color: var(--color-focus);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .back-link:hover { text-decoration: underline; }
+</style>
