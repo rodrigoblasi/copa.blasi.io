@@ -1,4 +1,4 @@
-# Copa Folheto MVP
+# Copa Folheto
 
 A static-first public World Cup 2026 "folheto/tabelão" built with Astro and TypeScript. 
 

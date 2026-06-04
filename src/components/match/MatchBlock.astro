@@ -1,6 +1,7 @@
 ---
 import type { Match } from '../../lib/data/types';
 import Flag from '../shared/Flag.astro';
+import { getScoreDisplay } from '../../lib/data/scoreDisplay';
 
 interface Props {
   match: Match;
@@ -8,7 +9,9 @@ interface Props {
 }
 const { match, featured = false } = Astro.props;
 
-const isBrazil = match.homeTeamId === 'brasil' || match.awayTeamId === 'brasil';
+const emphasisLevel = match.emphasisLevel || (match.homeTeamId === 'brasil' || match.awayTeamId === 'brasil' ? 'brazil' : featured ? 'featured' : 'regular');
+const emphasisAriaLabel = match.emphasisAriaLabel || (emphasisLevel === 'brazil' ? 'Jogo do Brasil' : '');
+const scoreLabel = getScoreDisplay(match);
 
 const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 function friendlyDate(dateStr: string | null): string {
@@ -19,27 +22,35 @@ function friendlyDate(dateStr: string | null): string {
 }
 ---
 
-<div class:list={['match-block', { featured, 'brazil-match': isBrazil }]}>
+<div class:list={['match-block', `emphasis-${emphasisLevel}`, { featured }]} aria-label={emphasisAriaLabel || undefined}>
+  {emphasisAriaLabel && <span class="sr-only">{emphasisAriaLabel}</span>}
   <div class="match-meta">
     <span class="match-date">{friendlyDate(match.date)}</span>
-    <span class="match-time">{match.kickoffBrt}</span>
-    {match.city && <span class="match-venue">{match.city}</span>}
+    {match.kickoffBrt && <span class="match-time">{match.kickoffBrt} BRT</span>}
   </div>
   <div class="match-teams">
     <div class="team home">
       {match.homeTeamCode && <Flag code={match.homeTeamCode} size={featured ? 'md' : 'sm'} />}
       <span class="team-name">{match.homeTeamName || '?'}</span>
     </div>
-    <div class="score-placeholder">
-      <span class="score-box">-</span>
-      <span class="score-sep">×</span>
-      <span class="score-box">-</span>
+    <div class="score-placeholder" aria-label={`Placar ${scoreLabel}`}>
+      <span class="score-label">{scoreLabel}</span>
     </div>
     <div class="team away">
       <span class="team-name">{match.awayTeamName || '?'}</span>
       {match.awayTeamCode && <Flag code={match.awayTeamCode} size={featured ? 'md' : 'sm'} />}
     </div>
   </div>
+  {(match.city || match.stadiumLabel || match.venue) && (
+    <div class="match-location">
+      {match.city && <span>{match.city}</span>}
+      {(match.stadiumLabel || match.venue) && (
+        <a href={match.stadiumMapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${match.stadiumLabel || match.venue} ${match.city || ''}`.trim())}`} target="_blank" rel="noopener noreferrer">
+          {match.stadiumLabel || match.venue}
+        </a>
+      )}
+    </div>
+  )}
 </div>
 
 <style>
@@ -58,15 +69,26 @@ function friendlyDate(dateStr: string | null): string {
     border-width: 1px;
     box-shadow: var(--shadow-md);
   }
-  .match-block.brazil-match {
+  .match-block.emphasis-brazil {
     border-color: var(--color-brazil-border);
+    border-left: 4px solid var(--color-brazil);
     background: var(--color-brazil-bg);
+  }
+  .match-block.emphasis-group-c {
+    border-color: var(--color-group-c-border);
+    border-left: 4px solid var(--color-group-c-border);
+    background: var(--color-group-c-bg);
+  }
+  .match-block.emphasis-featured {
+    border-color: var(--color-featured-border);
+    border-left: 4px solid var(--color-featured-border);
+    background: var(--color-featured-bg);
   }
   .match-meta {
     display: flex;
     gap: var(--space-2);
     font-size: 0.625rem;
-    color: var(--color-text-muted);
+    color: var(--color-text);
     margin-bottom: 2px;
   }
   .match-date {
@@ -113,26 +135,34 @@ function friendlyDate(dateStr: string | null): string {
     gap: 2px;
     flex-shrink: 0;
   }
-  .score-box {
+  .score-label {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid var(--color-border);
     border-radius: 2px;
-    width: 1.2rem;
-    height: 1.2rem;
+    min-width: 2.8rem;
+    min-height: 1.2rem;
+    padding: 0 0.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.6rem;
-    color: var(--color-text-muted);
+    color: var(--color-text);
   }
-  .featured .score-box {
-    width: 1.4rem;
-    height: 1.4rem;
+  .featured .score-label {
+    min-height: 1.4rem;
     font-size: 0.7rem;
   }
-  .score-sep {
+  .match-location {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
     font-size: 0.6rem;
     color: var(--color-text-muted);
-    font-weight: 300;
+  }
+  .match-location a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 </style>

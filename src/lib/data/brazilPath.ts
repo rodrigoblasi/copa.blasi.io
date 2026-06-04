@@ -1,4 +1,4 @@
-import type { Tournament, Match, Team, KnockoutBlock, KnockoutSlot } from './types';
+import type { Tournament, Match, Team, KnockoutBlock } from './types';
 
 function enrichMatch(match: Match, teams: Team[]): Match {
   const home = teams.find(t => t.id === match.homeTeamId);
@@ -29,7 +29,7 @@ export function buildBrazilPath(tournament: Tournament): BrazilPathVM {
     .filter(m => (m.homeTeamId === brazil.id || m.awayTeamId === brazil.id) && m.phaseId !== 'knockout')
     .map(m => enrichMatch(m, tournament.teams));
 
-  // Simplified traversal for MVP finding blocks linked to Brazil directly or indirectly
+  // Simplified traversal for blocks linked to Brazil directly or indirectly.
   const knockoutPath: BrazilPathVM['knockoutPath'] = [];
   
   // Look for any knockout slots brazil is in or could be in
@@ -55,7 +55,7 @@ export function buildBrazilPath(tournament: Tournament): BrazilPathVM {
           oppLabel = tournament.teams.find(t => t.id === oppSlot.teamId)?.name || 'A definir';
         } else if (oppSlot.status === 'conditional') {
           oppType = 'conditional';
-          oppLabel = `Vencedor do ${oppSlot.id}`; // Simple conditional string for MVP
+          oppLabel = block.matchId ? `Vencedor do jogo ${block.matchId.replace(/^m/, '')}` : 'Adversário a definir';
         }
       }
 

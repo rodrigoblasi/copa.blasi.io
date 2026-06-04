@@ -38,6 +38,10 @@ export interface Match {
   awayTeamLabel?: string | null;
   venue?: string | null;
   city?: string | null;
+  stadiumLabel?: string | null;
+  stadiumMapUrl?: string | null;
+  emphasisLevel?: 'brazil' | 'group-c' | 'featured' | 'regular';
+  emphasisAriaLabel?: string;
   score: Score | null;
   freshnessState: FreshnessState;
 }

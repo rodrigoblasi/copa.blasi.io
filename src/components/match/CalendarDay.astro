@@ -19,7 +19,7 @@ function friendlyDay(dateStr: string): string {
 }
 ---
 <div class="calendar-day">
-  <h4 class="day-header">{friendlyDay(date)}</h4>
+  <h3 class="day-header">{friendlyDay(date)}</h3>
   <div class="day-matches">
     {matches.map(m => <MatchBlock match={m} />)}
   </div>

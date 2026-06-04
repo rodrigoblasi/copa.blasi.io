@@ -1,4 +1,6 @@
 import type { Tournament, GroupSection, KnockoutBlock, Team, Match } from './types';
+import { classifyMatchEmphasis } from './emphasis';
+import { translateSlotLabel } from './slotLabels';
 
 export interface HomeOverviewVM {
   header: { tournamentName: string };
@@ -10,13 +12,23 @@ export interface HomeOverviewVM {
 function enrichMatch(match: Match, teams: Team[]): Match {
   const home = teams.find(t => t.id === match.homeTeamId);
   const away = teams.find(t => t.id === match.awayTeamId);
+  const emphasis = classifyMatchEmphasis(match, teams);
   return {
     ...match,
-    homeTeamName: home?.name || match.homeTeamLabel || 'A definir',
-    awayTeamName: away?.name || match.awayTeamLabel || 'A definir',
+    homeTeamName: home?.name || translateSlotLabel(match.homeTeamLabel),
+    awayTeamName: away?.name || translateSlotLabel(match.awayTeamLabel),
     homeTeamCode: home?.countryCode || null,
     awayTeamCode: away?.countryCode || null,
+    stadiumLabel: match.venue || null,
+    stadiumMapUrl: buildStadiumMapUrl(match),
+    emphasisLevel: emphasis.level,
+    emphasisAriaLabel: emphasis.ariaLabel,
   };
+}
+
+function buildStadiumMapUrl(match: Match): string | null {
+  if (!match.venue) return null;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${match.venue} ${match.city || ''}`.trim())}`;
 }
 
 export function buildHomeOverview(tournament: Tournament): HomeOverviewVM {
@@ -40,4 +52,8 @@ export function buildHomeOverview(tournament: Tournament): HomeOverviewVM {
     })),
     knockout: tournament.knockoutBlocks
   };
+}
+
+export function enrichMatchForHome(match: Match, teams: Team[]): Match {
+  return enrichMatch(match, teams);
 }

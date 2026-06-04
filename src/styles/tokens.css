@@ -11,6 +11,10 @@
   --color-brazil: #4ade80;
   --color-brazil-bg: rgba(74, 222, 128, 0.06);
   --color-brazil-border: rgba(74, 222, 128, 0.2);
+  --color-group-c-bg: rgba(138, 180, 248, 0.08);
+  --color-group-c-border: rgba(138, 180, 248, 0.45);
+  --color-featured-bg: rgba(251, 191, 36, 0.08);
+  --color-featured-border: rgba(251, 191, 36, 0.55);
 
   --color-focus: #8ab4f8;
   --color-accent: #8ab4f8;

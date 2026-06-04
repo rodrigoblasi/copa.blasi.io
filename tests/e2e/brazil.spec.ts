@@ -7,10 +7,10 @@ test.describe('Brazil Route', () => {
     
     await expect(page.locator('h1', { hasText: 'Caminho do Brasil' })).toBeVisible();
     await expect(page.locator('text=Fase de Grupos')).toBeVisible();
-    await expect(page.locator('text=Mata-Mata')).toBeVisible();
+    await expect(page.locator('text=Fase Eliminatória')).toBeVisible();
     
     // Check for the Brazil match block
-    await expect(page.locator('text=br').first()).toBeVisible();
+    await expect(page.locator('text=Brasil').first()).toBeVisible();
 
     await checkPageA11y(page);
   });

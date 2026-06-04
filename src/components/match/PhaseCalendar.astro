@@ -8,7 +8,7 @@ interface Props {
 const { phase } = Astro.props;
 ---
 <section class="phase-calendar">
-  <h2 class="phase-title">{phase.phaseId}</h2>
+  <h2 class="phase-title">{phase.label}</h2>
   <div class="phase-days">
     {phase.days.map(d => <CalendarDay date={d.date} matches={d.matches} />)}
   </div>
