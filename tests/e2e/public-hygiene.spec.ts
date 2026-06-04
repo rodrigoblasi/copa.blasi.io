@@ -11,12 +11,13 @@ test.describe('Public Hygiene Checks', () => {
   });
 
   test('public pages use official terminology and polished metadata', async ({ page }) => {
-    for (const route of ['/', '/calendario', '/brasil']) {
+    for (const route of ['/', '/calendario', '/brasil', '/radar', '/jogos/brasil-marrocos']) {
       await page.goto(route);
       const html = await page.content();
       expect(await page.title()).not.toContain('MVP');
       expect(html).not.toContain('Mata-Mata');
       expect(html).not.toContain('visão geral Z');
+      expect(html).not.toContain('TBD');
     }
 
     await page.goto('/');
@@ -27,6 +28,11 @@ test.describe('Public Hygiene Checks', () => {
     await expect(page.locator('text=Semifinal').first()).toBeVisible();
     await expect(page.locator('text=Disputa de 3º lugar').first()).toBeVisible();
     await expect(page.locator('text=Final').first()).toBeVisible();
+
+    await page.goto('/jogos/brasil-marrocos');
+    await expect(page.locator('.match-header-hero .phase')).toContainText('Fase de Grupos');
+    await expect(page.locator('.match-header-hero')).not.toContainText('phaseId');
+    await expect(page.locator('.match-header-hero')).not.toContainText('TBD');
   });
 
   test('base layout exposes favicon links', async ({ page }) => {

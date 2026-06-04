@@ -1,5 +1,8 @@
 ---
 import type { MatchDetailVM } from '../../lib/data/matchDetail';
+import { getRoundLabel } from '../../lib/data/roundLabels';
+import { translateSlotLabel } from '../../lib/data/slotLabels';
+import { getScoreDisplay } from '../../lib/data/scoreDisplay';
 import StatusLabel from '../status/StatusLabel.astro';
 
 interface Props {
@@ -7,23 +10,33 @@ interface Props {
 }
 const { vm } = Astro.props;
 const { match, homeTeam, awayTeam } = vm;
-const title = `${homeTeam?.name || match.homeTeamLabel || 'A definir'} x ${awayTeam?.name || match.awayTeamLabel || 'A definir'}`;
+const phaseLabel = match.phaseId === 'groups'
+  ? 'Fase de Grupos'
+  : match.phaseId === 'knockout'
+    ? 'Fase Eliminatória'
+    : 'A definir';
+const title = `${homeTeam?.name || translateSlotLabel(match.homeTeamLabel) || 'A definir'} x ${awayTeam?.name || translateSlotLabel(match.awayTeamLabel) || 'A definir'}`;
+const dateLabel = match.date || 'A definir';
+const kickoffLabel = match.kickoffBrt || 'A definir';
+const scoreLabel = getScoreDisplay(match);
+const roundLabel = getRoundLabel(match.round);
 ---
 <div class="match-header-hero">
   <h1>{title}</h1>
   <div class="match-meta">
-    <span class="phase">{match.phaseId === 'groups' ? 'Fase de Grupos' : match.phaseId === 'knockout' ? 'Fase Eliminatória' : match.phaseId}</span>
-    <span class="datetime">{match.date || 'TBD'} • {match.kickoffBrt || 'TBD'} (BRT)</span>
+    <span class="phase">{phaseLabel}</span>
+    {match.round && <span class="round">{roundLabel}</span>}
+    <span class="datetime">{dateLabel} • {kickoffLabel} (BRT)</span>
   </div>
   
   <div class="match-teams-large">
     <div class="team">
       <div class="team-name">{homeTeam?.name || 'A definir'}</div>
-      {match.score && <div class="score">{match.score.homeGoals ?? '-'}</div>}
+      {match.score && <div class="score">{scoreLabel === 'Placar em revisão' ? '—' : (match.score.homeGoals ?? '-')}</div>}
     </div>
     <div class="vs">X</div>
     <div class="team">
-      {match.score && <div class="score">{match.score.awayGoals ?? '-'}</div>}
+      {match.score && <div class="score">{scoreLabel === 'Placar em revisão' ? '—' : (match.score.awayGoals ?? '-')}</div>}
       <div class="team-name">{awayTeam?.name || 'A definir'}</div>
     </div>
   </div>
@@ -51,6 +64,10 @@ const title = `${homeTeam?.name || match.homeTeamLabel || 'A definir'} x ${awayT
     color: var(--color-text-muted);
   }
   .phase { text-transform: uppercase; font-weight: 600; margin-right: var(--space-2); }
+  .round {
+    font-weight: 600;
+    margin-right: var(--space-2);
+  }
   .match-teams-large {
     display: flex;
     justify-content: center;
