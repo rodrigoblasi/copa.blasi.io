@@ -13,4 +13,16 @@ test.describe('Mobile Usability', () => {
     
     expect(hasHorizontalScroll).toBe(false);
   });
+
+  test('mobile bracket preserves round order and match context', async ({ page }) => {
+    await page.goto('/');
+
+    const bracket = page.locator('.bracket');
+    await expect(bracket).toContainText('32 avos de final');
+    await expect(bracket).toContainText('Oitavas de final');
+    await expect(bracket).toContainText('Quartas de final');
+    await expect(bracket).toContainText('Semifinal');
+    await expect(bracket.locator('.bracket-match').first()).toContainText('BRT');
+    await expect(bracket.locator('.bracket-match').first()).not.toContainText('?');
+  });
 });

@@ -19,7 +19,7 @@ const meta = getHomeMetadata(Astro.site?.toString() || 'http://localhost:4321');
 <BaseLayout title={meta.title} description={meta.description}>
   <SiteNav />
 
-  <TournamentHeader title={vm.header.tournamentName} />
+  <TournamentHeader title="Guia da Copa do Mundo 2026" />
   
   <BrazilHighlight match={vm.brazilHighlight.nextMatch} status={vm.brazilHighlight.status} />
 
@@ -29,8 +29,8 @@ const meta = getHomeMetadata(Astro.site?.toString() || 'http://localhost:4321');
       {vm.groups.map(g => <GroupSection group={g} />)}
     </section>
 
-    <!-- Mata-Mata -->
-    <section class="tabelao-knockout">
+    <!-- Fase Eliminatória -->
+    <section class="tabelao-eliminatoria">
       <KnockoutBracket blocks={vm.knockout} matches={tournament.matches} />
     </section>
   </div>

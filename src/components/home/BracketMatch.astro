@@ -1,0 +1,43 @@
+---
+import type { Match } from '../../lib/data/types';
+import { getScoreDisplay } from '../../lib/data/scoreDisplay';
+import { translateSlotLabel } from '../../lib/data/slotLabels';
+
+interface Props {
+  match: Match;
+  centerLabel?: string;
+  final?: boolean;
+}
+
+const { match, centerLabel, final = false } = Astro.props;
+
+function friendlyShort(dateStr: string | null): string {
+  if (!dateStr) return '';
+  const [, m, d] = dateStr.split('-').map(Number);
+  return `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}`;
+}
+
+function labelFor(side: 'home' | 'away'): string {
+  const teamName = side === 'home' ? match.homeTeamName : match.awayTeamName;
+  const slotLabel = side === 'home' ? match.homeTeamLabel : match.awayTeamLabel;
+  return teamName || translateSlotLabel(slotLabel);
+}
+
+const stadiumMapUrl = match.venue
+  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${match.venue} ${match.city || ''}`.trim())}`
+  : null;
+---
+
+<div class:list={['bracket-match', { final }]}>
+  {centerLabel && <div class="bm-round-label">{centerLabel}</div>}
+  <div class="bm-meta">{friendlyShort(match.date)} · {match.kickoffBrt} BRT</div>
+  <div class="bm-label">{labelFor('home')}</div>
+  <div class="bm-score">{getScoreDisplay(match)}</div>
+  <div class="bm-label">{labelFor('away')}</div>
+  {match.city && <div class="bm-venue">{match.city}</div>}
+  {match.venue && stadiumMapUrl && (
+    <a class="bm-stadium" href={stadiumMapUrl} target="_blank" rel="noopener noreferrer">
+      {match.venue}
+    </a>
+  )}
+</div>

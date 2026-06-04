@@ -6,10 +6,10 @@ export interface RadarItemVM {
   relatedLinks: { url: string; label: string }[];
 }
 
-// In the MVP, radar items are static/editorial additions or derived signals
+// Radar items are static/editorial additions or derived signals.
 // We'll mock a structural builder assuming it pulls from an external "notes" or curated list 
 export function buildRadarView(): RadarItemVM[] {
-  // Hardcoded MVP fallback data assuming no editorial payload is loaded from JSON yet
+  // Hardcoded fallback data until an editorial payload is loaded from JSON.
   return [
     {
       id: 'r1',

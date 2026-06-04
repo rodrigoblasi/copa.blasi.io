@@ -14,7 +14,7 @@ export function buildMatchDetail(tournament: Tournament, slug: string): MatchDet
   const homeTeam = match.homeTeamId ? tournament.teams.find(t => t.id === match.homeTeamId) || null : null;
   const awayTeam = match.awayTeamId ? tournament.teams.find(t => t.id === match.awayTeamId) || null : null;
 
-  // Placeholder for editorial notes in MVP
+  // Reserved for concise editorial notes when useful.
   const notes: string[] = [];
 
   return { match, homeTeam, awayTeam, notes };

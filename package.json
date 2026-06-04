@@ -1,7 +1,7 @@
 {
   "name": "copa.blasi.io",
   "version": "1.0.0",
-  "description": "Copa Folheto MVP",
+  "description": "Copa Folheto — Guia da Copa do Mundo 2026",
   "type": "module",
   "scripts": {
     "dev": "astro dev",

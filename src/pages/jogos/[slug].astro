@@ -28,7 +28,7 @@ const meta = getMatchMetadata(slug, Astro.site?.toString() || 'http://localhost:
 <BaseLayout title={meta.title} description={meta.description}>
   <SiteNav />
   <div class="match-detail-container">
-    <a href="/" class="back-link">&larr; Voltar para o Tabelão</a>
+    <a href="/" class="back-link">&larr; Voltar para o guia da Copa</a>
     <MatchHeader vm={vm} />
     <MatchNotes notes={vm.notes} />
   </div>
