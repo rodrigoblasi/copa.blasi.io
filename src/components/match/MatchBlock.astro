@@ -30,15 +30,15 @@ function friendlyDate(dateStr: string | null): string {
   </div>
   <div class="match-teams">
     <div class="team home">
-      {match.homeTeamCode && <Flag code={match.homeTeamCode} size={featured ? 'md' : 'sm'} />}
       <span class="team-name">{match.homeTeamName || '?'}</span>
+      {match.homeTeamCode && <Flag code={match.homeTeamCode} size={featured ? 'md' : 'sm'} />}
     </div>
     <div class="score-placeholder" aria-label={`Placar ${scoreLabel}`}>
       <span class="score-label">{scoreLabel}</span>
     </div>
     <div class="team away">
-      <span class="team-name">{match.awayTeamName || '?'}</span>
       {match.awayTeamCode && <Flag code={match.awayTeamCode} size={featured ? 'md' : 'sm'} />}
+      <span class="team-name">{match.awayTeamName || '?'}</span>
     </div>
   </div>
   {(match.city || match.stadiumLabel || match.venue) && (
