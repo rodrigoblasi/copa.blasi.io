@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup: Card Brasil na Copa + Jogos de Hoje</title>
+<style>
+  :root {
+    --color-bg: #1a1a2e;
+    --color-bg-alt: #16213e;
+    --color-bg-card: #1e2a47;
+    --color-bg-card-hover: #243352;
+    --color-text: #e8eaed;
+    --color-text-muted: #9aa0a6;
+    --color-border: #2d3748;
+    --color-brazil: #4ade80;
+    --color-brazil-bg: rgba(74, 222, 128, 0.06);
+    --color-brazil-border: rgba(74, 222, 128, 0.2);
+    --color-accent: #8ab4f8;
+    --color-live: #fbbf24;
+    --color-finished: #4ade80;
+    --font-sans: "Google Sans", "Segoe UI", Roboto, system-ui, sans-serif;
+    --space-1: 0.1875rem;
+    --space-2: 0.375rem;
+    --space-3: 0.5625rem;
+    --space-4: 0.75rem;
+    --space-6: 1.125rem;
+    --space-8: 1.5rem;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    padding: var(--space-8);
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    color: var(--color-text);
+    font-size: 1.1rem;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  h2 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* ── Card Container ── */
+  .brazil-dashboard {
+    background: var(--color-brazil-bg);
+    border: 1px solid var(--color-brazil-border);
+    border-radius: 8px;
+    padding: var(--space-6) var(--space-6) var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  /* ── Row 1: Brazil matches ── */
+  .row-brazil h2 {
+    color: var(--color-brazil);
+  }
+  .row-brazil h2 .flag { font-size: 1.1rem; }
+
+  /* ── Row 2: Today ── */
+  .row-today {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-brazil-border);
+  }
+  .row-today h2 {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* ── Horizontal card strip ── */
+  .card-strip {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+    scroll-snap-type: x proximity;
+  }
+  .card-strip::-webkit-scrollbar { height: 4px; }
+  .card-strip::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+
+  /* ── Match mini-card ── */
+  .match-mini {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: var(--space-3) var(--space-4);
+    min-width: 180px;
+    max-width: 220px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    transition: background 0.12s;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .match-mini:hover { background: var(--color-bg-card-hover); }
+
+  /* Next match highlight */
+  .match-mini.next-match {
+    border-color: var(--color-brazil-border);
+    border-left: 3px solid var(--color-brazil);
+    background: var(--color-brazil-bg);
+  }
+
+  /* Finished match indicator */
+  .match-mini.finished {
+    border-color: rgba(74, 222, 128, 0.15);
+  }
+  .match-mini.finished .score-display {
+    color: var(--color-finished);
+    font-weight: 700;
+  }
+
+  /* ── Card internals ── */
+  .match-date-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.6rem;
+  }
+  .match-date-label {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .next-badge {
+    background: var(--color-brazil);
+    color: #1a1a2e;
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+  .finished-badge {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--color-finished);
+    font-size: 0.55rem;
+    font-weight: 600;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .match-teams-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+  .team-label {
+    font-weight: 600;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60px;
+  }
+  .team-label.home { text-align: right; }
+  .team-label.away { text-align: left; }
+
+  .score-display {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .match-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.6rem;
+    color: var(--color-text-muted);
+  }
+  .match-time {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  .match-city {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ── Empty states ── */
+  .empty-state {
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-style: italic;
+    padding: var(--space-2) 0;
+  }
+
+  /* ── Scenario toggle ── */
+  .scenario-picker {
+    margin-bottom: var(--space-6);
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+  .scenario-picker button {
+    background: var(--color-bg-card);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: var(--space-2) var(--space-4);
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-family: inherit;
+  }
+  .scenario-picker button.active {
+    background: var(--color-accent);
+    color: #1a1a2e;
+    border-color: var(--color-accent);
+  }
+  .scenario-picker button:hover {
+    border-color: var(--color-text-muted);
+  }
+
+  .scenario { display: none; }
+  .scenario.active { display: block; }
+</style>
+</head>
+<body>
+
+<h1>Mockup: Card "Brasil na Copa" reformulado</h1>
+
+<div class="scenario-picker">
+  <button onclick="showScenario('a')" class="active">Cenário A — Hoje (12/06): 2 jogos, Brasil estreia amanhã</button>
+  <button onclick="showScenario('b')">Cenário B — Dia 13/06: Brasil joga hoje</button>
+  <button onclick="showScenario('c')">Cenário C — Dia 24/06: fase final do grupo</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENARIO A: Today June 12, no Brazil games -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="scenario active" id="scenario-a">
+
+<div class="brazil-dashboard">
+
+  <!-- ══ ROW 1: Brazil's matches ══ -->
+  <div class="row-brazil">
+    <h2><span class="flag">🇧🇷</span> Brasil — Fase de Grupos</h2>
+    <div class="card-strip">
+
+      <!-- Card 1: Next match (highlighted) -->
+      <div class="match-mini next-match">
+        <div class="match-date-row">
+          <span class="match-date-label">Sex, 13/06</span>
+          <span class="next-badge">Próximo</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Brasil</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Marrocos</span>
+        </div>
+        <div class="match-meta-row">
+          <span>Nova York/NJ</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Future -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Sex, 19/06</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Brasil</span>
+          <span class="score-display">22:00</span>
+          <span class="team-label away">Haiti</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Filadélfia</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Future -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Qua, 24/06</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Escócia</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Brasil</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Miami</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ ROW 2: Today's games ══ -->
+  <div class="row-today">
+    <h2>📅 Hoje — 12 de junho</h2>
+    <div class="card-strip">
+
+      <!-- Canada vs Bosnia (future) -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Grupo B</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Canadá</span>
+          <span class="score-display">16:00</span>
+          <span class="team-label away">Bósnia e Herz.</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Toronto</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+      <!-- USA vs Paraguay (future) -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Grupo D</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">EUA</span>
+          <span class="score-display">22:00</span>
+          <span class="team-label away">Paraguai</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Vancouver</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div><!-- /scenario-a -->
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENARIO B: June 13, Brazil plays today -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="scenario" id="scenario-b">
+
+<div class="brazil-dashboard">
+
+  <!-- ══ ROW 1: Brazil's matches ══ -->
+  <div class="row-brazil">
+    <h2><span class="flag">🇧🇷</span> Brasil — Fase de Grupos</h2>
+    <div class="card-strip">
+
+      <!-- Card 1: Today's Brazil game (next + today badge) -->
+      <div class="match-mini next-match">
+        <div class="match-date-row">
+          <span class="match-date-label">Sex, 13/06</span>
+          <span class="next-badge">Hoje</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Brasil</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Marrocos</span>
+        </div>
+        <div class="match-meta-row">
+          <span>Nova York/NJ</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Sex, 19/06</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Brasil</span>
+          <span class="score-display">22:00</span>
+          <span class="team-label away">Haiti</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Filadélfia</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Qua, 24/06</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Escócia</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Brasil</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Miami</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ ROW 2: Today's games ══ -->
+  <div class="row-today">
+    <h2>📅 Hoje — 13 de junho</h2>
+    <div class="card-strip">
+
+      <!-- Brazil vs Morocco (future, also shown above) -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Grupo C</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Brasil</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Marrocos</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Nova York/NJ</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+      <!-- Haiti vs Scotland (future) -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Grupo C</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Haiti</span>
+          <span class="score-display">22:00</span>
+          <span class="team-label away">Escócia</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Boston</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div><!-- /scenario-b -->
+
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCENARIO C: June 24, last group round, previous Brazil matches finished -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="scenario" id="scenario-c">
+
+<div class="brazil-dashboard">
+
+  <!-- ══ ROW 1: Brazil's matches ══ -->
+  <div class="row-brazil">
+    <h2><span class="flag">🇧🇷</span> Brasil — Fase de Grupos</h2>
+    <div class="card-strip">
+
+      <!-- Card 1: Finished win -->
+      <div class="match-mini finished">
+        <div class="match-date-row">
+          <span class="match-date-label">Sex, 13/06</span>
+          <span class="finished-badge">Vitória</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Brasil</span>
+          <span class="score-display">3 x 1</span>
+          <span class="team-label away">Marrocos</span>
+        </div>
+        <div class="match-meta-row">
+          <span>Nova York/NJ</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Finished win -->
+      <div class="match-mini finished">
+        <div class="match-date-row">
+          <span class="match-date-label">Sex, 19/06</span>
+          <span class="finished-badge">Vitória</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Brasil</span>
+          <span class="score-display">2 x 0</span>
+          <span class="team-label away">Haiti</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Filadélfia</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Next match -->
+      <div class="match-mini next-match">
+        <div class="match-date-row">
+          <span class="match-date-label">Qua, 24/06</span>
+          <span class="next-badge">Próximo</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Escócia</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Brasil</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Miami</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ ROW 2: Today's games ══ -->
+  <div class="row-today">
+    <h2>📅 Hoje — 24 de junho</h2>
+    <div class="card-strip">
+
+      <!-- Scotland vs Brazil (future, also in row 1) -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Grupo C</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Escócia</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Brasil</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Miami</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+      <!-- Morocco vs Haiti -->
+      <div class="match-mini">
+        <div class="match-date-row">
+          <span class="match-date-label">Grupo C</span>
+        </div>
+        <div class="match-teams-row">
+          <span class="team-label home">Marrocos</span>
+          <span class="score-display">19:00</span>
+          <span class="team-label away">Haiti</span>
+        </div>
+        <div class="match-meta-row">
+          <span class="match-city">Filadélfia</span>
+          <span class="match-time">BRT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div><!-- /scenario-c -->
+
+<script>
+function showScenario(id) {
+  document.querySelectorAll('.scenario').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.scenario-picker button').forEach(b => b.classList.remove('active'));
+  document.getElementById('scenario-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

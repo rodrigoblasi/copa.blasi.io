@@ -396,12 +396,16 @@
       "groupId": "g_a",
       "date": "2026-06-11",
       "kickoffBrt": "16:00",
-      "status": "future",
+      "status": "finished",
       "homeTeamId": "mexico",
       "awayTeamId": "africa-do-sul",
       "venue": "Estadio Azteca",
       "city": "Cidade do México",
-      "score": null,
+      "score": {
+        "homeGoals": 2,
+        "awayGoals": 0,
+        "state": "final"
+      },
       "freshnessState": "fresh"
     },
     {
@@ -411,12 +415,16 @@
       "groupId": "g_a",
       "date": "2026-06-11",
       "kickoffBrt": "23:00",
-      "status": "future",
+      "status": "finished",
       "homeTeamId": "coreia-do-sul",
       "awayTeamId": "tchequia",
       "venue": "Estadio Akron",
       "city": "Guadalajara",
-      "score": null,
+      "score": {
+        "homeGoals": 2,
+        "awayGoals": 1,
+        "state": "final"
+      },
       "freshnessState": "fresh"
     },
     {
