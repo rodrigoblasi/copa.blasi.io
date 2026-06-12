@@ -40,6 +40,7 @@ export interface Match {
   city?: string | null;
   stadiumLabel?: string | null;
   stadiumMapUrl?: string | null;
+  groupLabel?: string | null;
   emphasisLevel?: 'brazil' | 'group-c' | 'featured' | 'regular';
   emphasisAriaLabel?: string;
   score: Score | null;
