@@ -55,7 +55,7 @@ function getScoreOrTime(match: Match): string {
 
   <div class="brazil-row">
     <h3><span aria-hidden="true">🇧🇷</span> Brasil — Fase de Grupos</h3>
-    <div class="match-strip" aria-label="Jogos do Brasil na fase de grupos">
+    <div class="match-strip" role="region" tabindex="0" aria-label="Jogos do Brasil na fase de grupos">
       {brazilGroupMatches.length > 0 ? brazilGroupMatches.map(match => (
         <div class:list={['mini-match-card', { 'next-match': nextMatch?.id === match.id, finished: match.status === 'finished' }]}>
           <div class="mini-match-topline">
@@ -84,7 +84,7 @@ function getScoreOrTime(match: Match): string {
 
   <div class="today-row">
     <h3><span aria-hidden="true">📅</span> Hoje — {todayLabel}</h3>
-    <div class="match-strip" aria-label={`Jogos de hoje, ${todayLabel}`}>
+    <div class="match-strip" role="region" tabindex="0" aria-label={`Jogos de hoje, ${todayLabel}`}>
       {todayMatches.length > 0 ? todayMatches.map(match => (
         <div class:list={['mini-match-card', 'today-card', { finished: match.status === 'finished' }]}>
           <div class="mini-match-topline">
@@ -178,6 +178,11 @@ function getScoreOrTime(match: Match): string {
   .match-strip::-webkit-scrollbar-thumb {
     background: var(--color-border);
     border-radius: 999px;
+  }
+  .match-strip:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
   }
   .mini-match-card {
     flex: 0 0 190px;
