@@ -1,12 +1,47 @@
 ---
 import type { Match } from '../../lib/data/types';
-import MatchBlock from '../match/MatchBlock.astro';
+import Flag from '../shared/Flag.astro';
+import { getScoreDisplay } from '../../lib/data/scoreDisplay';
 
 interface Props {
-  match: Match | null;
+  nextMatch: Match | null;
   status: string;
+  brazilGroupMatches: Match[];
+  todayMatches: Match[];
+  todayLabel: string;
 }
-const { match, status } = Astro.props;
+const { nextMatch, status, brazilGroupMatches, todayMatches, todayLabel } = Astro.props;
+
+const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+function friendlyDate(dateStr: string | null): string {
+  if (!dateStr) return 'Data a definir';
+  const [y, m, d] = dateStr.split('-').map(Number);
+  const dt = new Date(y, m - 1, d);
+  return `${weekdays[dt.getDay()]}, ${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}`;
+}
+
+function isBrazilMatch(match: Match): boolean {
+  return match.homeTeamId === 'brasil' || match.awayTeamId === 'brasil';
+}
+
+function getCardBadge(match: Match): string | null {
+  if (match.status === 'live') return 'Ao vivo';
+  if (match.status === 'finished') {
+    if (!isBrazilMatch(match) || !match.score || match.score.homeGoals === null || match.score.awayGoals === null) return 'Final';
+    const brazilGoals = match.homeTeamId === 'brasil' ? match.score.homeGoals : match.score.awayGoals;
+    const opponentGoals = match.homeTeamId === 'brasil' ? match.score.awayGoals : match.score.homeGoals;
+    if (brazilGoals > opponentGoals) return 'Vitória';
+    if (brazilGoals < opponentGoals) return 'Derrota';
+    return 'Empate';
+  }
+  if (nextMatch?.id === match.id) return match.date === todayMatches[0]?.date ? 'Hoje' : 'Próximo';
+  return null;
+}
+
+function getScoreOrTime(match: Match): string {
+  const score = getScoreDisplay(match);
+  return score === '- x -' ? match.kickoffBrt || 'A definir' : score;
+}
 ---
 
 <section class="brazil-highlight">
@@ -17,11 +52,64 @@ const { match, status } = Astro.props;
       <p class="brazil-status">{status}</p>
     </div>
   </div>
-  {match && (
-    <div class="brazil-match-wrapper">
-      <MatchBlock match={match} featured={true} />
+
+  <div class="brazil-row">
+    <h3><span aria-hidden="true">🇧🇷</span> Brasil — Fase de Grupos</h3>
+    <div class="match-strip" role="region" tabindex="0" aria-label="Jogos do Brasil na fase de grupos">
+      {brazilGroupMatches.length > 0 ? brazilGroupMatches.map(match => (
+        <div class:list={['mini-match-card', { 'next-match': nextMatch?.id === match.id, finished: match.status === 'finished' }]}>
+          <div class="mini-match-topline">
+            <span class="mini-date">{friendlyDate(match.date)}</span>
+            {getCardBadge(match) && <span class:list={['mini-badge', { live: match.status === 'live', finished: match.status === 'finished' }]}>{getCardBadge(match)}</span>}
+          </div>
+          <div class="mini-teams">
+            <span class="team home">
+              <span class="team-name">{match.homeTeamName || 'A definir'}</span>
+              {match.homeTeamCode && <Flag code={match.homeTeamCode} size="sm" />}
+            </span>
+            <span class="mini-score" aria-label={`Placar ou horário ${getScoreOrTime(match)}`}>{getScoreOrTime(match)}</span>
+            <span class="team away">
+              {match.awayTeamCode && <Flag code={match.awayTeamCode} size="sm" />}
+              <span class="team-name">{match.awayTeamName || 'A definir'}</span>
+            </span>
+          </div>
+          <div class="mini-meta">
+            <span>{match.city || 'Cidade a definir'}</span>
+            {match.score ? <span>Final</span> : <span>BRT</span>}
+          </div>
+        </div>
+      )) : <p class="empty-state">Jogos do Brasil ainda não definidos.</p>}
     </div>
-  )}
+  </div>
+
+  <div class="today-row">
+    <h3><span aria-hidden="true">📅</span> Hoje — {todayLabel}</h3>
+    <div class="match-strip" role="region" tabindex="0" aria-label={`Jogos de hoje, ${todayLabel}`}>
+      {todayMatches.length > 0 ? todayMatches.map(match => (
+        <div class:list={['mini-match-card', 'today-card', { finished: match.status === 'finished' }]}>
+          <div class="mini-match-topline">
+            <span class="mini-date">{match.groupLabel || 'Jogo'}</span>
+            {getCardBadge(match) && <span class:list={['mini-badge', { live: match.status === 'live', finished: match.status === 'finished' }]}>{getCardBadge(match)}</span>}
+          </div>
+          <div class="mini-teams">
+            <span class="team home">
+              <span class="team-name">{match.homeTeamName || 'A definir'}</span>
+              {match.homeTeamCode && <Flag code={match.homeTeamCode} size="sm" />}
+            </span>
+            <span class="mini-score" aria-label={`Placar ou horário ${getScoreOrTime(match)}`}>{getScoreOrTime(match)}</span>
+            <span class="team away">
+              {match.awayTeamCode && <Flag code={match.awayTeamCode} size="sm" />}
+              <span class="team-name">{match.awayTeamName || 'A definir'}</span>
+            </span>
+          </div>
+          <div class="mini-meta">
+            <span>{match.city || 'Cidade a definir'}</span>
+            {match.score ? <span>Final</span> : <span>BRT</span>}
+          </div>
+        </div>
+      )) : <p class="empty-state">Não há jogos no calendário local de hoje.</p>}
+    </div>
+  </div>
 </section>
 
 <style>
@@ -53,7 +141,170 @@ const { match, status } = Astro.props;
     margin: 2px 0 0;
     font-size: 0.7rem;
   }
-  .brazil-match-wrapper {
-    margin-top: var(--space-1);
+  .brazil-row,
+  .today-row {
+    margin-top: var(--space-4);
+  }
+  .today-row {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-brazil-border);
+  }
+  .brazil-row h3,
+  .today-row h3 {
+    margin: 0 0 var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .brazil-row h3 {
+    color: var(--color-brazil);
+  }
+  .today-row h3 {
+    color: var(--color-accent);
+  }
+  .match-strip {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+    scroll-snap-type: x proximity;
+  }
+  .match-strip::-webkit-scrollbar {
+    height: 4px;
+  }
+  .match-strip::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+  }
+  .match-strip:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+  .mini-match-card {
+    flex: 0 0 190px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    transition: background 0.12s ease;
+  }
+  .mini-match-card:hover {
+    background: var(--color-bg-card-hover);
+  }
+  .mini-match-card.next-match {
+    border-color: var(--color-brazil-border);
+    border-left: 4px solid var(--color-brazil);
+    background: var(--color-brazil-bg);
+  }
+  .mini-match-card.finished {
+    border-color: rgba(74, 222, 128, 0.18);
+  }
+  .mini-match-topline,
+  .mini-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+  .mini-date {
+    color: var(--color-accent);
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .mini-badge {
+    flex-shrink: 0;
+    padding: 1px 5px;
+    border-radius: 999px;
+    background: var(--color-brazil);
+    color: var(--color-bg);
+    font-size: 0.55rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .mini-badge.finished {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--color-brazil);
+  }
+  .mini-badge.live {
+    background: rgba(251, 191, 36, 0.18);
+    color: #fbbf24;
+  }
+  .mini-teams {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .team {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .team.home {
+    justify-content: flex-end;
+    text-align: right;
+  }
+  .team.away {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  .team-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mini-score {
+    min-width: 3.1rem;
+    padding: 1px 6px;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    text-align: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .finished .mini-score {
+    color: var(--color-brazil);
+  }
+  .mini-meta {
+    color: var(--color-text-muted);
+    font-size: 0.6rem;
+  }
+  .mini-meta span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .empty-state {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.7rem;
+    font-style: italic;
+  }
+  @media (max-width: 720px) {
+    .match-strip {
+      justify-content: flex-start;
+    }
   }
 </style>

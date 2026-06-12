@@ -21,7 +21,7 @@ const meta = getHomeMetadata(Astro.site?.toString() || 'http://localhost:4321');
 
   <TournamentHeader title="Guia da Copa do Mundo 2026" />
   
-  <BrazilHighlight match={vm.brazilHighlight.nextMatch} status={vm.brazilHighlight.status} />
+  <BrazilHighlight {...vm.brazilHighlight} />
 
   <div class="tabelao">
     <!-- Fase de Grupos -->
